@@ -1,0 +1,40 @@
+---
+layout: page
+title: Deleting Data - REST API Development Guide - Helper Libraries - Developer Docs
+class: contact-page
+permalink: /api/guide/deleting-data.html
+---
+<h2>>REST API Development Guide</h2>
+<div class="container">
+	<ol class="breadcrumb">
+		<li><a href="/">Developer Docs</a></li>
+		<li><a href="/api/">REST API</a></li>
+		<li><a href="/api/guide">REST API Development Guide</a></li>
+		<li class="active">Deleting Data</li>
+	</ol>
+	
+	<div class="text-center well">
+		<h3>Deleting Data</h3>
+		<hr />
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading" id="section-start">Getting Started</div>
+		<div class="panel-body"> 
+	
+			<p>You can delete data that has been stored in Flybase by sending a DELETE request to remove a document using the unique <code>_id</code>.</p>
+	
+			<pre><code class="language-javascript">
+	DELETE /apps/{app}/collections/{collection}/{_id}
+			</code></pre>
+	
+			<pre><code class="language-javascript">
+	curl -X DELETE -H "X-Flybase-API-Key: 74c8062f-cd6f-4c07-8baf-b1h241496dec" \
+	  https://api.flybase.io/apps/web/collections/users/4e7315a65e4ce91f885b7dde 
+			</code></pre>
+			
+			<p>That's it, all you have to do to delete a document, is make a DELETE request, Flybase's API will handle the rest.</p>
+	   		
+	    </div>
+	</div>
+</div>

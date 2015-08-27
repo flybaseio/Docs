@@ -1,0 +1,139 @@
+---
+layout: page
+title: 5 Minute Quickstart - Web Development Guide - Helper Libraries - Developer Docs
+class: contact-page
+---
+<h2 class="">5 Minute Quickstart</h2>
+<div class="container">
+	<ol class="breadcrumb">
+		<li><a href="/">Developer Docs</a></li>
+		<li><a href="/web/">Javascript</a></li>
+		<li class="active">5 Minute Quickstart</li>
+	</ol>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Create an account</h3>
+		</div>
+		<div class="panel-body">
+	
+	<p>The first thing you need to do to get started with Flybase is <a href="https://app.flybase.io/signup">sign up for a free account</a>.</p>
+	
+			<div class="well">
+				<img src="https://flybase.io/assets/images/dashboard.jpg" style="width:98%;height:auto;" />
+			</div>
+	
+	<p>Once you sign up, create your first app and make a note of your <code>API Key</code>, and the name of your app. We'll use this URL to store and sync data.
+		</div>
+		<br />
+	</div>
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Install Flybase</h3>
+		</div>
+		<div class="panel-body">
+	
+			<p>
+			To include the Flybase client library in your website, add a script tag to the <code>&lt;head&gt;</code> section of your HTML file. We recommend including the library directly from our CDN:
+			</p>
+			
+			<pre><code class="language-javascript">
+	&lt;script src="http://cdn.flybase.io/flybase.js">&lt;/script>
+			</code></pre>
+			
+			<p>You can also install Flybase as a Bower dependency by typing <code>bower install flybase</code>.</p>
+		</div>
+	</div>
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Node.js Setup</h3>
+		</div>
+		<div class="panel-body">
+			<p>
+			The Flybase JavaScript API and the Flybase Node.js API are exactly the same. Flybase clients run just as easily on your servers as they do on end-user devices. We offer a Node.js module which can be installed via npm from the command line:
+			</p>
+			
+			<pre><code class="language-javascript">
+	$ npm install flybase --save
+			</code></pre>
+			
+			<p>
+			To use the Flybase Node.js module in your application, just <code>require</code> the Flybase client library.
+			</p>
+			<pre><code class="language-javascript">
+	var Flybase = require("flybase");
+			</code></pre>
+		</div>
+	</div>
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Write to your Flybase App</h3>
+		</div>
+		<div class="panel-body">	
+	
+	    <p>
+	      To write data to your Flybase app, we need to first create a reference to it. We do this by passing our Api Key, app name and a collection to our Flybase constructor:
+	    </p>
+	
+		<pre><code class="language-javascript">
+	var myDataRef = new Flybase("74k8064f-cd6f-4c07-8baf-b1d241496eec", "web", "data");
+		</code></pre>
+	
+		<P>
+			A Flybase reference consists of three items:
+		</P>
+		<ol>
+			<li>Your API Key, represented by: <code>74k8064f-cd6f-4c07-8baf-b1d241496eec</code></li>
+			<li>The slug of a Flybase app that has been created in your account: <code>web</code></li>
+			<li>Finally, the name of a data collection, in this example: <code>data</code></li>
+		</ol>
+		
+		<p>
+			Data inside a Flybase app is organized by <strong>collections</strong>, if you are familiar with SQL tables, then this is similar to <strong>tables</strong>.
+		</p>
+		<p>
+			Apps must be created inside your Flybase dashboard, but if you call a collection that does not exist already then it will get created the first time you save data to it.
+		</p>
+	
+		<p>
+			Once we have a reference to your Flybase app, we can write any valid JSON object to it using <code>set()</code>.      
+		</p>
+	
+		<p><a href="/web/guide/saving-data.html">Our guide on saving data</a> to Flybase explains the different write methods our API offers and how to know when the data has been successfully written to your Flybase app.</p>
+	
+		<pre><code class="language-javascript">
+	myDataRef.set({
+		title: "Hello World!",
+		author: "Flybase"
+	});
+		</code></pre>
+	
+		</div>
+	</div>
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Read from your Flybase App</h3>
+		</div>
+		<div class="panel-body">	
+	
+			<p>
+			Data is read from your Flybase app by attaching listeners and handling the resulting events. Assuming we already wrote to <code>myDataRef</code> above, we can retrieve the value by using the <code>on()</code> method:
+			</p>
+			
+			<pre><code class="language-javascript">
+	myDataRef.on("value", function(data) {
+		data.forEach( function(snapshot){
+			console.log( snapshot.value() );
+		});
+	});
+			</code></pre>
+			
+			<p>Data return from a <code>value</code> event can be accessed by calling a <code>.forEach()</code> method and a <code>.value()</code> method to access the document data returned from the callback to access a JSON object.</p>
+			
+			<p>
+			In the example above, the <code>value</code> event will return the document data. You can learn more about the various event types and how to handle event data in our <a href="/web/guide/reading-data.html">documentation on reading data</a>.
+			</p>
+	
+		</div>
+	</div>
+</div>

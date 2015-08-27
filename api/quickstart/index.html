@@ -1,0 +1,172 @@
+---
+layout: page
+title:  5 Minute Quickstart - REST API - Developer Docs
+class: about-page
+---
+
+<h2>5 Minute Quickstart</h2>
+<div class="container">
+
+	<ol class="breadcrumb">
+		<li><a href="/">Developer Docs</a></li>
+		<li><a href="/api/">REST API</a></li>
+		<li class="active">5 Minute Quickstart</li>
+	</ol>
+	
+	<!--<Step 1>-->
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Create an account</h3>
+		</div>
+		<div class="panel-body">
+	
+	<p>The first thing you need to do to get started with Flybase is <a href="https://app.flybase.io/signup">sign up for a free account</a>.</p>
+	
+			<div class="well">
+				<img src="https://flybase.io/assets/images/dashboard.jpg" style="width:98%;height:auto;" />
+			</div>
+	
+	<p>Once you sign up, create your first app and make a note of your <code>API Key</code>, and the name of your app. We'll use this URL to store and sync data.
+		</div>
+		<br />
+	</div>
+	<!--</Step 1>-->
+	
+	<!--<Step 2>-->
+	<div class="panel panel-primary">
+		<div class="panel-heading">Base URL and headers</div>
+		<div class="panel-body">
+			<p>All URLs referenced in the documentation have the following base:</p>
+			
+			<pre><code class="language-javascript">
+	https://api.flybase.io/
+			</code></pre>
+						
+			<p>The Flybase REST API is served over HTTPS. To ensure data privacy, unencrypted HTTP is not supported.</p>
+	
+			<p>In order to access any data from the REST API, you must pass a header called <code>X-Flybase-API-KEY</code>
+	
+			<pre><code class="language-javascript">
+	curl -H "X-Flybase-API-Key: 74c8062f-cd6f-4c07-8baf-b1h241496dec"  https://api.flybase.io/
+			</code></pre>
+			
+			Calling the REST API without any actions in the URL will result in validating the API Key. You can also call the REST API with the following end point to validate the API key:
+			
+			<pre><code class="language-javascript">
+	curl -H "X-Flybase-API-Key: 74c8062f-cd6f-4c07-8baf-b1h241496dec"  https://api.flybase.io/validate_key
+			</code></pre>
+			
+			<p>An invalid API Key will result in not being able to do any other actions with the REST API. You can create new API Keys and add rules such as limiting access to apps or whitelisting access only to specified IP addresses or websites from your account.</p>
+		</div>
+	</div>
+	<!--</Step 2>-->
+	
+	<!--<Step 3>-->
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Write to your Flybase App</h3>
+		</div>
+		<div class="panel-body">	
+	
+			<p>To create a new document in the specified collection:</p>
+	
+			<pre><code class="language-javascript">
+	POST /apps/{app}/collections/{collection}
+	Content-Type: application/json
+	Body: &lt;JSON data>
+			</code></pre>
+	
+			<pre><code class="language-javascript">
+	curl -X POST -d '{ "first": "Jack", "last": "Sparrow" }' \
+	  -H "X-Flybase-API-Key: 74c8062f-cd6f-4c07-8baf-b1h241496dec" \
+	  https://api.flybase.io/apps/MY-APP/collections/MY-COLLECTION
+			</code></pre>
+	
+			<p>If you POST a document that contains an <code>_id</code> field, the effect will be to overwrite any existing document with that <code>_id</code>. When your document already includes an <code>_id</code> value, think of POST like “save” or “upsert” (discussed below) rather than “create” or “insert”.</p>
+			
+			<p class="well">One consequence of this behavior: for a document with an <code>_id</code> specified, there is no straightforward way in the API to realize a pure “insert” — that is, an operation that refuses to modify a pre-existing document with that <code>_id</code>. POST will save over the old document; PUT will modify it. If this property is problematic for your application, consider using a field other than <code>_id</code>, with its own index to enforce uniqueness.</p>
+	
+		</div>
+	</div>
+	<!--</Step 3>-->
+	
+	<!--<Step 4>-->
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Read from your Flybase App</h3>
+		</div>
+		<div class="panel-body">	
+	
+			<p>To get the documents in the specified collection. If no parameters are passed, it lists all of them. Otherwise, it lists the documents in the collection matching the specified parameters:
+	:</p>
+	
+			<pre><code class="language-javascript">
+	GET /apps/{app}/collections/{collection}
+			</code></pre>
+	
+			<pre><code class="language-javascript">
+	curl -H "X-Flybase-API-Key: 74c8062f-cd6f-4c07-8baf-b1h241496dec"  https://api.flybase.io/apps/MY-APP/collections/MY-COLLECTION
+			</code></pre>
+	
+			<p>A successful request will be indicated by a 200 OK HTTP status code. The response will contain the data being retrieved:</p>
+	
+			<pre><code class="language-javascript">
+	{ "_id": "uniquedocid-1", "first": "Jack", "last": "Sparrow", "active": 1}
+			</code></pre>
+			
+			<div class="alert alert-info">
+				<p>All documents contain a <code>_id</code> field, you can use this for updating or deleting the document later. Any other fields depend on your structure</p>
+			</div>
+				
+			<div class="docs-sub-section">
+				<div class="page-header">
+					<h4>Optional parameters</h4>
+				</div>
+				
+				<p>Our optional parameters are based on <a href="http://docs.mongodb.org/manual/reference/operator/">MongoDB references</a>, so you can build a query similar to how you would with MongoDB. This helps give you a lot of power and flexibility.</p>
+				
+				<ul>
+				<li><code>q=&lt;query&gt;</code> - restrict results by the specified JSON query</li>
+				
+				<li><code>c=true</code> - return the result count for this query</li>
+				
+				<li><code>f=&lt;set of fields&gt;</code> - specify the set of fields to include or exclude in each document (1 - include; 0 - exclude)</li>
+				
+				<li><code>fo=true</code> - return a single document from the result set</li>
+				
+				<li><code>s=&lt;sort order&gt;</code> - specify the order in which to sort each specified field (1- ascending; -1 - descending)</li>
+				
+				<li><code>sk=&lt;num results to skip&gt;</code> - specify the number of results to skip in the result set; useful for paging</li>
+				
+				<li><code>l=&lt;limit&gt;</code> - specify the limit for the number of results (default is 1000)</li>
+				</ul>
+	
+				<p>Examples using these parameters:</p>
+		
+				<pre><code class="language-javascript">
+	"q" example - return all documents with "active" field of true:
+	https://api.flybase.io/apps/MY-APP/collections/MY-COLLECTION?q={"active": true}
+	
+	"c" example - return the count of documents with "active" of true:
+	https://api.flybase.io/apps/MY-APP/collections/MY-COLLECTION?q={"active": true}&amp;c=true
+	
+	"f" example (include) - return all documents but include only the "firstName" and "lastName" fields:
+	https://api.flybase.io/apps/MY-APP/collections/MY-COLLECTION?f={"firstName": 1, "lastName": 1}
+	
+	"f" example (exclude) - return all documents but exclude the "notes" field:
+	https://api.flybase.io/apps/MY-APP/collections/MY-COLLECTION?f={"notes": 0}
+	
+	"fo" example - return a single document matching "active" field of true:
+	https://api.flybase.io/apps/MY-APP/collections/MY-COLLECTION?q={"active": true}&amp;fo=true
+	
+	"s" example - return all documents sorted by "priority" ascending and "difficulty" descending:
+	 https://api.flybase.io/apps/MY-APP/collections/MY-COLLECTION?s={"priority": 1, "difficulty": -1}
+	
+	"sk" and "l" example - sort by "name" ascending and return 10 documents after skipping 20
+	 https://api.flybase.io/apps/MY-APP/collections/MY-COLLECTION?s={"name":1}&amp;sk=20&amp;l=10
+		 		</code></pre>
+	
+		</div>
+	</div>
+	<!--</Step 4>-->
+</div>

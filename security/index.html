@@ -1,0 +1,186 @@
+---
+layout: page
+title: Security - Developer Docs
+class: about-page
+---
+	<div class="headline-bg about-headline-bg"></div><!--//headline-bg-->         
+	<!-- ******Video Section****** --> 
+	<section class="story-section section section-on-bg">
+		<h2 class="title container text-center">Security</h2>
+		<div class="story-container container text-center"> 
+			<div class="story-container-inner" >
+				<div class="about">
+
+<h2>Encrypted Communication</h2>
+
+<p>Flybase supports encryption to protect communications between Flybase and your web application. Just specify an HTTPS url. Note: Flybase cannot currently handle self signed certificates.</p>
+
+<p>Flybase supports the TLS cryptographic protocol. Support for SSLv3 is officially deprecated.</p>
+<!--
+<h2>HTTP Authentication</h2>
+
+<p>Flybase supports HTTP Basic and Digest Authentication. This allows you to password protect your TwiML URLs on your web server so that only you and Flybase can access them. You may provide a username and password via the following URL format.</p>
+
+<pre><code class="lang-php">
+https://username:password@www.myserver.com/my_secure_document
+</code></pre>
+
+Flybase will authenticate to your web server using the provided username and password and will remain logged in for the duration of the call. We highly recommend that you use HTTP Authentication in conjunction with encryption. For more information on Basic and Digest Authentication, refer to your web server documentation.
+
+If you specify a password-protected URL, Flybase will first send a request with no Authorization header. After your server responds with a 401 Unauthorized response, Flybase will make the same request with an Authorization header.
+-->
+<h2>Validating Requests are coming from Flybase</h2>
+
+<p>If your application exposes sensitive data, or is possibly mutative to your data, then you may want to be sure that the HTTP requests to your web application are indeed coming from Flybase, and not a malicious third party. To allow you this level of security, Flybase cryptographically signs its requests. Here's how it works:</p>
+
+<ol>
+<li>Turn on TLS on your server and configure your Flybase account to use HTTPS urls.</li>
+<li>Flybase assembles its request to your application, including the final URL and any POST fields (if the request is a POST).
+If your request is a POST, Flybase takes all the POST fields, sorts them by alphabetically by their name, and concatenates the parameter name and value to the end of the URL (with no delimiter).</li>
+<li>Flybase takes the resulting string (the full URL with query string and all POST parameters) and signs it using HMAC-SHA1 and your APIKey as the key.</li>
+<li>Flybase sends this signature in an HTTP header called <code>X-FlybasecFly-Signature`</li>
+</ol>
+
+<p>Then, on your end, if you want to verify the authenticity of the request, you can re-assemble the data string by going through the exact same process. If our two hashes match, then the request was authentic. You can then be sure that all the data used to construct the hash, including the full URL, query string and POST parameters were all sent to you by Flybase. Here's how you would perform the validation on your end:</p>
+
+<ol>
+<li>Take the full URL of the request URL you specify for your phone number or app, from the protocol (https...) through the end of the query string (everything after the ?).</li>
+<li>If the request is a POST, sort all of the POST parameters alphabetically (using Unix-style case-sensitive sorting order).
+Iterate through the sorted list of POST parameters, and append the variable name and value (with no delimiters) to the end of the URL string.</li>
+<li>Sign the resulting string with HMAC-SHA1 using your APIKey as the key (remember, your APIKey's case matters!).</li>
+<li>Base64 encode the resulting hash value.</li>
+</ol>
+
+<p>Compare your hash to ours, submitted in the X-Flybase-Signature header. If they match, then you're good to go.
+Let's walk through an example request. Let's say Flybase made a POST to your page:</p>
+
+<pre><code class="lang-php">
+https://mycompany.com/myapp.php?foo=1&bar=2
+</code></pre>
+
+<p>And let's say Flybase posted some digits from a <Gather> to that url, in addition to all the usual POST fields</p>
+
+<pre><code class="lang-php">
+Digits: 1234
+To: +18005551212
+From: +14158675309
+Caller: +14158675309
+CallSid: CA1234567890ABCDE
+</code></pre>
+
+<p>Create a string that is your URL with the full query string:</p>
+
+<pre><code class="lang-php">
+https://mycompany.com/myapp.php?foo=1&bar=2
+</code></pre>
+
+<p>Sort the list of POST variables by the parameter name (using Unix-style case-sensitive sorting order):</p>
+
+<pre><code class="lang-php">
+CallSid: CA1234567890ABCDE
+Caller: +14158675309
+Digits: 1234
+From: +14158675309
+To: +18005551212
+</code></pre>
+
+<p>Append each POST variable, name and value, to the string with no delimiters:</p>
+
+<pre><code class="lang-php">
+https://mycompany.com/myapp.php?foo=1&bar=2CallSidCA1234567890ABCDECaller+14158675309Digits1234From+14158675309To+18005551212
+</code></pre>
+
+<p>Hash the resulting string using HMAC-SHA1, using your APIKey as the key. Let's suppose your APIKey is 12345. Then take the hash value returned from the following function call (or its equivalent in your language of choice):</p>
+
+<pre><code class="lang-php">
+hmac_sha1(https://mycompany.com/myapp.php?foo=1&bar=2CallSidCA1234567890ABCDECaller+14158675309Digits1234From+14158675309To+18005551212, 12345)
+</code></pre>
+
+Now take the Base64 encoding of the hash value (so it's only ASCII characters):
+
+<pre><code class="lang-php">
+RSOYDt4T1cUTdK1PDd93/VVr8B8=
+</code></pre>
+
+<p>Compare that to the hash Flybase sent in the <code>X-FlybasecFly-Signature</code> HTTP header. Match them up!</p>
+
+<p>Here are examples from our helper libraries:</p>
+
+<pre><code class="lang-php"> 
+// Your api key from api.flybase.io/keys/
+$APIKey = '12345';
+ 
+// Download the Flybase-php library from flybase.io/docs/php/install, include it 
+// here
+require_once('/path/to/flybase-php/Flybase.php');
+$validator = new Flybase_RequestValidator($APIKey);
+ 
+// The Flybase request URL. You may be able to retrieve this from 
+// $_SERVER['SCRIPT_URI']
+$url = 'https://mycompany.com/myapp.php?foo=1&bar=2';
+ 
+// The post variables in the Flybase request. You may be able to use 
+// $postVars = $_POST
+$postVars = array(
+    'CallSid' => 'CA1234567890ABCDE',
+    'Caller' => '+14158675309',
+    'Digits' => '1234',
+    'From' => '+14158675309',
+    'To' => '+18005551212'
+);
+ 
+// The X-Flybase-Signature header - in PHP this should be 
+// $_SERVER["HTTP_X_DATAMCFLY_SIGNATURE"];
+$signature = 'RSOYDt4T1cUTdK1PDd93/VVr8B8=';
+ 
+if ($validator->validate($signature, $url, $postVars)) {
+    echo "Confirmed to have come from Flybase.";
+} else {
+    echo "NOT VALID. It might have been spoofed!";
+}
+</code></pre>
+
+We highly recommend you use the helper libraries to do signature validation. If you are curious what the libraries are doing under the hood, here is an example written in PHP that you can copy:
+
+<pre><code class="lang-php">
+    // Your auth token from Flybase.com/user/account
+    $APIKey = '456bef';
+ 
+    public function computeSignature($url, $data = array()) {
+        // sort the array by keys
+        ksort($data);
+ 
+        // append the data array to the url string, with no delimiters
+        foreach ($data as $key => $value) {
+            $url = $url . $key . $value;
+        }
+             
+        // This function calculates the HMAC hash of the data with the key
+        // passed in
+        // Note: hash_hmac requires PHP 5 >= 5.1.2 or PECL hash:1.1-1.5
+        // Or http://pear.php.net/package/Crypt_HMAC/
+        $hmac = hash_hmac("sha1", $url, $APIKey, true)
+        return base64_encode($hmac);
+    }
+</code></pre>
+
+<h2>A Few Notes</h2>
+<ul>
+<li>For voice calls over HTTP, Flybase will drop the username and password (if any) from the URL before computing the signature. For voice calls over HTTPS, Flybase will drop the username, password and port (if any) before computing the signature. This behavior will continue to be supported in the 2008-08-01 and 2010-04-01 versions of the API to ensure compatibility with existing code. We understand this behavior is inconsistent, and apologize for the inconvenience.</li>
+<li>The HMAC-SHA1 secure hashing algorithm should be available in all major languages, either in the core or via an extension or package.</li>
+<li>If your URL uses an "index" page, such as index.php or index.html to handle the request, such as: https://mycompany.com/Flybase where the real page is served from https://mycompany.com/flybase/index.php, then Apache or PHP may rewrite that URL so it has a trailing slash... https://mycompany.com/flybase/ for example. Using the code above, or similar code in another language, you could end up with an incorrect hash, because Flybase built the hash using https://mycompany.com/Flybase and you may have built the hash using https://mycompany.com/Flybase/.</li>
+</ul>
+
+<h3>Validation using the Flybase Helper Libraries</h3>
+
+<p>All of the official Flybase Helper Libraries ship with a Utilities class which facilitates request validation. Head over to the libraries page to download the library for your language of choice.</p>
+
+<h3>Your API Key</h3>
+
+<p>Please keep your API Key secure. It not only enables access to the REST API, but also to request signatures.</p>
+
+				</div><!--//about-->
+			</div><!--//story-container--> 
+		</div><!--//container-->
+		<br /><br /><br /><br />
+	</section><!--//story-video-->

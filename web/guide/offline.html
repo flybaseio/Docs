@@ -1,0 +1,80 @@
+---
+layout: page
+title: Offline Capabilities - Web Development Guide - Helper Libraries - Developer Docs
+class: contact-page
+permalink: /web/guide/offline.html
+---
+<h2>JavaScript Web Guide</h2>
+<div class="container">
+	<ol class="breadcrumb">
+		<li><a href="/">Developer Docs</a></li>
+		<li><a href="/web/">Javascript</a></li>
+		<li><a href="/web/guide">Web Development Guide</a></li>
+		<li class="active">Offline Capabilities</li>
+	</ol>
+	
+	<div class="text-center well">
+		<h3>Offline Capabilities</h3>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading" id="section-start">Getting Started</div>
+		<div class="panel-body"> 
+	
+			<p>Flybase works even if your app loses its network connection temporarily. We provide several tools for monitoring presence and synchronizing local state with server state, which we will introduce in this section.</p>
+	
+		</div>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading" id="section-start">Managing Presence</div>
+		<div class="panel-body"> 
+			
+	<p>In real-time applications, it is often useful to detect when clients connect and disconnect. For example, we may want to mark a user as 'offline' when their client disconnects.</p>
+	
+	<p>Flybase provides some simple functions that allow data to be written when a client disconnects from the Flybase servers. These updates will occur whether the client disconnects cleanly or not, so we can rely on them to clean up data even if a connection is dropped or a client crashes. All Flybase write operations, including setting, updating, and removing, can be performed upon a disconnection.</p>
+	
+	<p>Here is a simple example of writing data upon disconnection by using the <code>onDisconnect</code> function:</p>
+				
+			<pre><code class="language-javascript">
+	var ref = new Flybase("74k8064f-cd6f-4c07-8baf-b1d241496eec", "web", "posts");
+	
+	ref.onDisconnect( function(){
+		var name = $('#nameInput').val() || "anonymous";
+		var text = "has left the building";
+		messagesRef.push( {name:name, text:text} );
+	});
+			</code></pre>
+		</div>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading" id="section-start">Detecting Connection State</div>
+		<div class="panel-body"> 
+			
+	<p>For many presence-related features, it is useful for a client to know when it is online or offline. Flybase provides a special asynchronous listener called <code>Connected</code> which is updated every time the client's connection state changes. Here is an example:</p>
+	
+			<pre><code class="language-javascript">
+	var ref = new Flybase("74k8064f-cd6f-4c07-8baf-b1d241496eec", "web", "posts");
+	
+	ref.Connected( function( status ){
+		if( status === true ){
+			alert("connected");
+		} else {
+			alert("not connected");
+		}
+	});
+			</code></pre>
+	
+	<p><code>Connected()</code> will return a boolean value which is not synchronized between clients because the values are dependent on the state of the client.</p>
+	
+	<p>In other words, if one client reads <code>Connected()</code> as false, this is no guarantee that a separate client will also read false.</p>
+	
+		</div>
+	</div>
+	
+		<p>
+		Now, we're ready for the next article on
+		<a href="deploy.html">deploying your apps</a> in Flybase.
+		</p>
+</div>

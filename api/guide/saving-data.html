@@ -1,0 +1,195 @@
+---
+layout: page
+title: Saving Data - REST API Development Guide - Helper Libraries - Developer Docs
+class: contact-page
+permalink: /api/guide/saving-data.html
+---
+<h2>REST API Development Guide</h2>
+<div class="container">
+	<ol class="breadcrumb">
+		<li><a href="/">Developer Docs</a></li>
+		<li><a href="/api/">REST API</a></li>
+		<li><a href="/api/guide">REST API Development Guide</a></li>
+		<li class="active">Saving Data</li>
+	</ol>
+	
+	<div class="text-center well">
+		<h3>Saving Data</h3>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading" id="section-set" data-nav="Writing Data">Saving Data</div>
+		<div class="panel-body">
+			<p>To create a new document in the specified collection:</p>
+	
+			<pre><code class="language-javascript">
+	POST /apps/{app}/collections/{collection}
+	Content-Type: application/json
+	Body: &lt;JSON data>
+			</code></pre>
+	
+			<pre><code class="language-javascript">
+	curl -X POST -d '{ "username": "baileys", "date_of_birth": "June 9, 1978", "full_name": "Bailey Stringer"}' \
+	  -H "X-Flybase-API-Key: 74c8062f-cd6f-4c07-8baf-b1h241496dec" \
+	  https://api.flybase.io/apps/web/collections/users
+			</code></pre>
+	
+		    <p>
+		        When a JSON object is saved to Flybase, the object properties are automatically added to the collection you specified, in this case <code>users</code>. Now if we navigate to our <code>web</code> app in our dashboard,
+		        we'll see the value "Bailey Stringer" in the <code>users</code> collection.
+		    </p>
+		
+		    <p>
+		        The above example will result in the same data being saved to your Flybase app:
+		    </p>
+		
+			<pre><code class="language-javascript">
+	{
+		"users": {
+			"_id": "uniquedocumentid",
+			"username": "baileys",
+			"date_of_birth": "July 4, 2004",
+			"full_name": "Bailey Stringer"
+		}
+	}
+			</code></pre>
+	
+		
+			<p>
+				Every record will have a unique <code>_id</code> field, which we use later when we push updates.
+			</p>
+	
+			<p>If you POST a document that contains an <code>_id</code> field, the effect will be to overwrite any existing document with that <code>_id</code>. When your document already includes an <code>_id</code> value, think of POST like “save” or “upsert” (discussed below) rather than “create” or “insert”.</p>
+			
+			<p class="well">One consequence of this behavior: for a document with an <code>_id</code> specified, there is no straightforward way in the API to realize a pure “insert” — that is, an operation that refuses to modify a pre-existing document with that <code>_id</code>. POST will save over the old document; PUT will modify it. If this property is problematic for your application, consider using a field other than <code>_id</code>, with its own index to enforce uniqueness.</p>
+		</div>
+	</div>
+	
+	<!-- UPDATING DATA -->
+	<div class="panel panel-primary">
+		<div class="panel-heading" id="section-update">Updating Existing Data</div>
+		<div class="panel-body">
+	
+			<p>You can update existing data in one of two ways. The first is by passing data to a document matching the specified <code>_id</code>. If no document matching the specified <code>_id</code> already exists, it creates a new document. The data payload should contain a replacement document or update modifiers:</p>
+	
+			<pre><code class="language-javascript">
+	PUT /apps/{app}/collections/{collection}/{_id}
+	Content-Type: application/json 
+	Body: &lt;JSON data>
+			</code></pre>
+	
+			<pre><code class="language-javascript">
+	curl -X PUT -d '{ "x": "3" }' \
+	  -H "X-Flybase-API-Key: 74c8062f-cd6f-4c07-8baf-b1h241496dec" \
+	  https://api.flybase.io/apps/web/collections/users/1234
+			</code></pre>
+	
+			<p>The other method to modify data is by performing a query which lets you modify multiple documents:</p>
+	
+			<p>To update one or more documents in the specified collection, use a <code>PUT</code> request with a replacement document or update modifiers in the body:</p>
+	
+			<pre><code class="language-javascript">
+	PUT /apps/{app}/collections/{collection}
+	Content-Type: application/json
+	Body: &lt;JSON data>
+			</code></pre>
+				
+			<p>Example setting "x" to 3 in the document with "_id" = 1234</p>
+	
+			<pre><code class="language-javascript">
+	curl -X PUT -d '{ "x": "3" }' \
+	  -H "X-Flybase-API-Key: 74c8062f-cd6f-4c07-8baf-b1h241496dec" \
+	  https://api.flybase.io/apps/web/collections/users?q={"_id":1234}
+			</code></pre>
+	
+		</div>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading" id="section-servervalues">Server Values</div>
+		<div class="panel-body">    
+		    <p>
+			    Flybase lets you specify variables that are set on the server end. This is handy for dealing with cases such as users in multiple timezones and you want to store a timestamp locally to the Flybase servers.
+		    </p>
+		    
+		    <table class="table table-bordered">
+		    <thead>
+			    <tr>
+				    <th>Server Value</th>
+				    <th>Definition</th>
+		    </thead>
+		    <tbody>
+			    <tr>
+				    <td>Flybase.ServerValue.TIMESTAMP</td>
+				    <td>A placeholder value for auto-populating the current timestamp (time since the Unix epoch, in milliseconds) by the Flybase servers.</td>
+			    </tr>
+			    <tr>
+				    <td>Flybase.ServerValue.UTC</td>
+				    <td>A placeholder value for auto-populating the current UTC date (<?= date('Y-m-d H:i:s') ?>) by the Flybase servers.</td>
+			    </tr>
+			    <tr>
+				    <td>Flybase.ServerValue.UNIQUE</td>
+				    <td>A placeholder value for auto-populating the field with a unique id.</td>
+			    </tr>
+			    <tr>
+				    <td>Flybase.ServerValue.UUID</td>
+				    <td>A placeholder value for auto-populating the field with a unique UUID field.</td>
+			    </tr>
+		    </tbody>
+		    </table>
+		
+			<pre><code class="language-javascript">
+	curl -X POST -d '{ "username": "baileys", "date_of_birth": "June 9, 1978", "full_name": "Bailey Stringer","registered_date": "Flybase.ServerValue.TIMESTAMP"}' \
+	  -H "X-Flybase-API-Key: 74c8062f-cd6f-4c07-8baf-b1h241496dec" \
+	  https://api.flybase.io/apps/web/collections/users
+			</code></pre>
+		</div>	
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">HTML Status Codes</div>
+		<div class="panel-body">
+			<p>The API commonly returns the following codes. For further reference, see <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html" target="_blank">W3C’s documentation</a>.</p>
+	
+		    <table class="table table-bordered">
+			<thead>
+				<tr>
+					<th width=30%>HTTP Status Code</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>200 - OK</th>
+					<td>Returned whenever a resource is listed, viewed, updated or deleted</td>
+				</tr>
+				<tr>
+					<th>201 - Created</th>
+					<td>Returned whenever a resource is created (instead of code 200)</td>
+				</tr>
+				<tr>
+					<th>400 - Bad Request</th>
+					<td>Returned whenever a request cannot be fulfilled because of an error with the input</td>
+				</tr>
+				<tr>
+					<th>401 - Unauthorized</th>
+					<td>Returned either when no user credentials could be found or the credentials found are not authorized to perform the requested action</td>
+				</tr>
+				<tr>
+					<th>403 - Forbidden</th>
+					<td>Returned whenever the server is refusing access to a resource, usually because the user does not have permissions to it</td>
+				</tr>
+				<tr>
+					<th>404 - Not Found</th>
+					<td>Returned whenever the resource being requested does not exist</td>
+				</tr>
+				<tr>
+					<th>405 - Method Not Allowed</th>
+					<td>Returned whenever the HTTP method (e.g. GET or POST) is not supported for the resource being requested</td>
+				</tr>
+			</tbody>
+		    </table>
+		</div>
+	</div>
+	<p>In the next section on <a href="reading-data.html">Reading Data</a>, we'll learn how to read this data from Flybase.</p>
+</div>

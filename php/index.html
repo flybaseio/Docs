@@ -1,0 +1,164 @@
+---
+layout: page
+title: PHP SDK - Helper Libraries - Developer Docs
+class: contact-page
+---
+
+<h2>Flybase PHP SDK</h2>
+<div class="container">
+	<ol class="breadcrumb">
+		<li><a href="/">Developer Docs</a></li>
+		<li class="active">PHP SDK</li>
+	</ol>
+	<div class="well">
+		<p>Build mobile and web apps in minutes using the Flybase REST API and PHP.</p>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">Overview</div>
+		<div class="panel-body">
+	
+	<p>Flybase provides a complete backend solution for your application. Generally, our goal is to eliminate the need for managing servers and writing server-side code. Our PHP SDK is for those applications and situations where server-side code is necessary, or simply preferred.</p>
+	
+	<p>The Flybase PHP SDK is fully open source, and anyone can contribute to make it better, or make their own changes if necessary. Check out the <a href="https://github.com/flybaseio/flybase-php">GitHub</a> repository for more information.</p>
+	
+	<p>The Flybase PHP SDK requires version 5.4 or greater of the PHP runtime.</p>
+	
+		</div>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">Installation</div>
+		<div class="panel-body">
+	
+	<p><a href="https://getcomposer.org/download/">Get Composer</a>, the PHP package manager.  Then create a composer.json file in your projects root folder, containing:</p>
+	
+	<pre><code class="language-javascript">
+	{
+		"require": {
+			"flybase/flybase": "dev-master"
+		}
+	}
+	</code></pre>
+	
+		<p>Run "composer install" to download the SDK and set up the autoloader, and then require it from your PHP script:</p>
+	
+		<pre><code class="language-php">
+	require 'vendor/autoload.php';
+		</code></pre>
+	
+		<p>Note: The Flybase PHP SDK requires PHP 5.4 or newer.</p>
+	
+		</div>
+	</div>
+	<div class="panel panel-primary">
+		<div class="panel-heading">Getting Started</div>
+		<div class="panel-body">
+	
+			<p>After including the required files from the SDK, you need to initialize the Flybase Client using your Flybase <code>API key</code> and <code>app name</code>:</p>
+		
+			<pre><code class="language-php">
+	$flybase = new \Flybase\Client( "YOUR-API-KEY","YOUR-DATAMCFLY-APP" );
+			</code></pre>
+	
+			<p>Selecting a <code>collection</code> is just a matter of referencing the <code>collection</code> name:</p>
+	
+			<pre><code class="language-php">
+	$users = $flybase->Users; // where Users is your collection
+			</code></pre>
+			
+			<p>Calls to <code>$users</code> will now only affect changes to your Flybase app's <code>collection</code> that is named <code>Users</code></p>
+			<p>Using the PHP SDK in your code isn't that different from calling standard database systems, in fact, you can swap out a regular database system and just use Flybase for all of your data seamlessly.</p>
+		</div>
+	</div>
+	<div class="panel panel-primary">
+		<div class="panel-heading" id="section-start">Inserting Data</div>
+		<div class="panel-body"> 		
+			<p>Adding data is accomplished by passing an array containing your document's data via the <code>insert()</code> function</p>
+			
+			<pre><code class="language-php">
+	$inserted_id = $users->insert(array(
+		'Name' => 'Test User',
+		'PhoneNumber' => '123-456-1234',
+		'DateCreated'  => date('Y-m-d H:i:s')
+	));
+			</code></pre>
+		</div>
+	</div>
+	<div class="panel panel-primary">
+		<div class="panel-heading" id="section-start">Querying Data</div>
+		<div class="panel-body"> 		
+	
+			<p>Now, we can query our data to get all records:</p>
+	
+			<pre><code class="language-php">
+	$ret = $users->get();
+	var_dump( $ret );
+			</code></pre>
+	
+			<p>We can also get a record based on a single <code>_id</code>:</p>
+	
+			<pre><code class="language-php">
+	$ret = $users->get('544d8df66865edoc371206478');
+	var_dump( $ret );
+			</code></pre>
+			
+			<p>Or, you can query based on other fields:</p>
+	
+			<pre><code class="language-php">
+	$ret = $users->find( array('PhoneNumber'=>'6486490392721') );
+	var_dump( $ret );
+			</code></pre>
+		</div>
+	</div>
+	<div class="panel panel-primary">
+		<div class="panel-heading" id="section-start">Updating Data</div>
+		<div class="panel-body"> 		
+	
+			<p>We can also update our records easily:</p>
+	
+			<pre><code class="language-php">
+	$result = $users->find( array('PhoneNumber'=>'6486490392721') );
+	foreach( $result as $row ){
+		$row['Role'] = 'Nobody';
+		$ret = $users->updatebyid($row,$row['_id']);
+	}
+	
+	$ret = $users->find( array('PhoneNumber'=>'6486490392721') );
+	var_dump( $ret );
+			</code></pre>
+			
+			<p>Or, you can update this way:</p>
+	
+			<pre><code class="language-php">
+	$row = array(
+		"Role"=>"Teacher",
+	);
+	$ret = $users->update(array("Name"=>"Lorenza Huels"),$row);
+			</code></pre>
+		</div>
+	</div>
+	<div class="panel panel-primary">
+		<div class="panel-heading" id="section-start">Deleting Data</div>
+		<div class="panel-body"> 		
+	
+			<p>Deleting records is a matter of calling the <code>delete()</code> function with a <code>_id</code>:
+	
+			<pre><code class="language-php">
+	$users->delete('544d8df63cffddoc853542530');
+			</code></pre>
+		</div>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">Triggering Events</div>
+		<div class="panel-body">
+			<p>Your apps can <a href="/web/guide/reading-data.html#section-custom-event-types">listen for custom events</a>, and the PHP library can push notifications to these events:</p>
+	
+			<pre><code class="language-php">		
+	$users->trigger("custom_event","Hello!");
+			</code></pre>
+	
+		</div>
+	</div>
+</div>
