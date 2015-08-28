@@ -12,7 +12,7 @@
 
 	<link rel="stylesheet" href="https://flybase.io/assets/custom.css?v=2eh">
 
-    <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css?v1" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css?v2" media="screen" />
     <link rel="stylesheet" type="text/css" href="/stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="/stylesheets/print.css" media="print" />
 
@@ -51,11 +51,27 @@
       </div>
     </header>
 	<nav class="navbar navbar-inverse">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
 		<div class="container-fluid">
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<a href="https://flybase.io" class="btn btn-primary navbar-btn box-shadow--2dp"><i class="fa fa-home"></i> Back to Flybase</a> &nbsp;&nbsp;&nbsp;
-				<a href="https://app.flybase.io/login" class="btn btn-default navbar-btn  box-shadow--2dp"><i class="fa fa-sign-in"></i> Login</a> &nbsp;&nbsp;&nbsp;
-				<a href="https://app.flybase.io/signup" class="btn btn-success navbar-btn  box-shadow--2dp"><i class="fa fa-pencil"></i> Signup</a> &nbsp;&nbsp;
+				<ul class="nav navbar-nav navbar-right">
+					<li><div>
+						<a href="https://flybase.io" class="btn btn-primary navbar-btn box-shadow--2dp"><i class="fa fa-home"></i> Back to Flybase</a>
+					</div></li>
+					<li><div>
+						<a href="https://app.flybase.io/login" class="btn btn-default navbar-btn  box-shadow--2dp"><i class="fa fa-sign-in"></i> Login</a>
+					</div></li>
+					<li><div>
+						<a href="https://app.flybase.io/signup" class="btn btn-success navbar-btn  box-shadow--2dp"><i class="fa fa-pencil"></i> Signup</a>
+					</div></li>
+				</ul>
 			</div>
 		</div>
 	</nav>
@@ -78,9 +94,9 @@
           {{ content }}
 
         </section>
-
 	</div>
     </div>
-
-  </body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+</body>
 </html>

@@ -925,3 +925,8 @@ dl dd {
 .navbar{
 	border-radius: 0px !important;
 }
+
+.navbar-btn {
+	margin-left: 10px !important;
+	margin-right: 10px !important;
+}
