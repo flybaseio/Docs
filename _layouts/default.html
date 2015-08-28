@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+	<meta charset='utf-8'>
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 
 	<link rel="stylesheet" href="https://flybase.io/assets/css/prism.css">
@@ -12,17 +12,17 @@
 
 	<link rel="stylesheet" href="https://flybase.io/assets/custom.css?v=2eh">
 
-    <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css?v2" media="screen" />
-    <link rel="stylesheet" type="text/css" href="/stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="/stylesheets/print.css" media="print" />
+	<link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css?v2.d" media="screen" />
+	<link rel="stylesheet" type="text/css" href="/stylesheets/pygment_trac.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="/stylesheets/print.css" media="print" />
 
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha256-k2/8zcNbxVIh5mnQ52A0r3a6jAgMGxFJFE2707UxGCk= sha512-ZV9KawG2Legkwp3nAlxLIVFudTauWuBpC10uEafMHYL0Sarrz5A7G79kXh5+5+woxQ5HM559XX2UZjMJ36Wplg==" crossorigin="anonymous">
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
 
-    <title> {{ page.title }} </title>
+	<title> {{ page.title }} </title>
 
 	<script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -37,19 +37,19 @@
   </head>
 
   <body>
-    <header>
-      <div class="container">
+	<header>
+	  <div class="container">
 {% comment %}
 	  	<div class="pull-right">
-	        <a href="https://flybase.io" class="btn btn-primary box-shadow--2dp"><i class="fa fa-home"></i> Back to Flybase</a>
-	        <br /><br />
-	        <a href="https://app.flybase.io/login" class="btn btn-default box-shadow--2dp"><i class="fa fa-sign-in"></i> Login</a>
-	        <a href="https://app.flybase.io/signup" class="btn btn-success box-shadow--2dp"><i class="fa fa-pencil"></i> Signup</a>
+			<a href="https://flybase.io" class="btn btn-primary box-shadow--2dp"><i class="fa fa-home"></i> Back to Flybase</a>
+			<br /><br />
+			<a href="https://app.flybase.io/login" class="btn btn-default box-shadow--2dp"><i class="fa fa-sign-in"></i> Login</a>
+			<a href="https://app.flybase.io/signup" class="btn btn-success box-shadow--2dp"><i class="fa fa-pencil"></i> Signup</a>
 	  	</div>
 {% endcomment %}
-        <a href="/"><h1><img src="http://flybase.io/logosm.png" /> Developer Docs</h1></a>
-      </div>
-    </header>
+		<a href="/"><h1><img src="http://flybase.io/logosm.png" /> Developer Docs</h1></a>
+	  </div>
+	</header>
 	<nav class="navbar navbar-inverse">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -75,28 +75,113 @@
 			</div>
 		</div>
 	</nav>
-    <div id="content-wrapper">
-      <div class="inner clearfix">
+	<div id="content-wrapper">
+		<div class="container clearfix">
 {% comment %}
-        <aside id="sidebar">
-          <a href="https://github.com/pietromenna/jekyll-architect-theme/archive/master.zip" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/pietromenna/jekyll-architect-theme/archive/master.tar.gz" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-        </aside>
+			<aside id="sidebar">
+			<a href="https://github.com/pietromenna/jekyll-architect-theme/archive/master.zip" class="button">
+			<small>Download</small>
+			.zip file
+			</a>
+			<a href="https://github.com/pietromenna/jekyll-architect-theme/archive/master.tar.gz" class="button">
+			<small>Download</small>
+			.tar.gz file
+			</a>
+			</aside>
 {% endcomment %}		
-	    <section id="main-content">
-          
-          {{ content }}
-
-        </section>
+			<section id="main-content">
+			{{ content }}
+			</section>
+		</div>
 	</div>
-    </div>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+{% if page.url == "/index.html" %}
+	<section id="cta-section" class="section cta-section text-center home-cta-section">
+		<div class="container">
+			<h2 class="title">Join the Flybase movement</h2>
+			<p class="intro">What are you waiting for? Power your apps using Flybase today</p>
+			<p><a class="btn btn-primary btn-lg" href="https://app.flybase.io/signup" target="_blank"><i class="fa fa-rocket"></i> Sign up now for free »</a></p>
+		</div><!--//container-->
+	</section><!--//cta-section-->
+{% endif %}
+	<!-- ******FOOTER****** --> 
+	<footer class="footer">
+		<div class="footer-content">
+			<div class="container">
+				<div class="row">
+					<div class="footer-col links col-md-2 col-sm-4 col-xs-4">
+						<div class="footer-col-inner">
+							<h4 class="title">What We Do</h4>
+							<ul class="list-unstyled">
+								<li><a href="http://blog.flybase.io/" title="Our Blog"><i class="fa fa-caret-right"></i>Our Blog</a></li>
+								<li><a href="https://flybase.io/pricing/" title="Pricing"><i class="fa fa-caret-right"></i>Pricing</a></li>
+								<li><a href="https://flybase.io/experts/" title="Expert Services"><i class="fa fa-caret-right"></i>Expert Services</a></li>
+								<li><a href="https://flybase.io/training/" title="Training"><i class="fa fa-caret-right"></i>Training</a></li>							
+							</ul>
+						</div><!--//footer-col-inner-->
+					</div><!--//foooter-col-->	
+					<div class="footer-col links col-md-2 col-sm-4 col-xs-4">
+						<div class="footer-col-inner">
+							<h4 class="title">Resources</h4>
+							<ul class="list-unstyled">
+								<li><a href="https://flybase.io/getting-started/" title="Getting Started"><i class="fa fa-caret-right"></i>Getting Started</a></li>
+								<li><a href="https://flybase.io/tutorial/" title="Tutorial"><i class="fa fa-caret-right"></i>Tutorial</a></li>
+								<li><a href="http://docs.flybase.io/" title="Developer Docs"><i class="fa fa-caret-right"></i>Developer Docs</a></li>
+								<li><a href="https://flybase.io/books/" title="Books on Flybase"><i class="fa fa-caret-right"></i>Books</a></li>
+							</ul>
+						</div><!--//footer-col-inner-->
+					</div><!--//foooter-col-->	
+					<div class="footer-col links col-md-2 col-sm-4 col-xs-4">
+						<div class="footer-col-inner">
+							<h4 class="title">Who We Are</h4>
+							<ul class="list-unstyled">
+								<li><a href="https://flybase.io/about/" title="About Flybase"><i class="fa fa-caret-right"></i>About</a></li>
+								<li><a href="https://flybase.io/support/" title="Help & Support"><i class="fa fa-caret-right"></i>Help & Support</a></li>
+								<li><a href="https://flybase.io/contact/" title="Contact us"><i class="fa fa-caret-right"></i>Contact Us</a></li>
+							</ul>
+						</div><!--//footer-col-inner-->
+					</div><!--//foooter-col-->	
+					<div class="footer-col connect col-md-6 col-sm-12 col-xs-12">
+						<div class="footer-col-inner">
+							<ul class="social list-inline">
+								<li><a href="https://twitter.com/flybaseio" target="_blank" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+								<li><a href="//facebok.com/DataMcFly"><i class="fa fa-facebook" title="Facebook"></i></a></li>
+								<li><a href="//github.com/flybaseio"><i class="fa fa-github" title="Github"></i></a></li>
+								<li><a href="http://slack.flybase.io"><i class="fa fa-slack" title="Join Our Slack Community"></i></a></li>
+								<li class="row-end"><a href="//blog.flybase.io" title="Our Blog"><i class="fa fa-rss"></i></a></li>			 
+							</ul>
+							<div class="form-container">
+								<p class="intro">Stay up to date with the latest news and offers from Flybase</p>
+								<form class="signup-form navbar-form" action="//flybase.us9.list-manage.com/subscribe/post?u=3b954fafb0dae072610469e35&amp;id=a35eea690c" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" novalidate>
+									<div class="form-group">
+										<input type="text" class="form-control" name="EMAIL" placeholder="Enter your email address">
+									</div>   
+									<button type="submit" class="btn btn-cta btn-cta-primary" name="subscribe" id="mc-embedded-subscribe">Subscribe Now</button>								 
+									<div style="position: absolute; left: -5000px;"><input type="text" name="b_3b954fafb0dae072610469e35_a35eea690c" tabindex="-1" value=""></div>
+								</form>
+								<p><small>We will never, ever spam you or sell your information. Promise.</small></p>
+	<!--End mc_embed_signup-->
+							</div><!--//subscription-form-->
+						</div><!--//footer-col-inner-->
+					</div><!--//foooter-col-->
+				</div>
+			</div><!--//container-->
+		</div><!--//footer-content-->
+		<div class="bottom-bar">
+			<div class="container">
+				<small class="copyright">
+					Copyright @ 2015 <a href="//flybase.io/" target="_blank">Flybase</a> by Data McFly
+				</small>
+				<div class="pull-right">
+					<ul class="list-unstyled list-inline">
+						<li><small class="copyright"><a href="https://flybase.io/terms/privacy-policy">Privacy Policy</a></small></li>
+						<li><small class="copyright"><a href="https://flybase.io/terms/">Terms of Service</a></small></li>
+						<li><small class="copyright"><a href="https://flybase.io/terms/service-level-agreement">Service Level Agreement</a></small></li>
+					</ul>
+				</div>
+			</div><!--//container-->
+		</div><!--//bottom-bar-->
+	</footer><!--//footer-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 </body>
 </html>
