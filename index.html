@@ -6,13 +6,23 @@ class: about-page
 ---
 <h2 class="">Getting Started with Flybase</h2>
 <div class="container">
-	{% comment %}
+{% comment %}
 	<div class="text-center well">					
 		<h3>Building Blocks for Better Real-Time Communication</h3>
 		<p>From our REST API to helper libraries, get up and running quickly in your language of choice.</p>
 		<a class="btn btn-primary btn-lg" href="how-flybase-works">How Flybase Works</a>
 	</div>
-	{% endcomment %}
+{% endcomment %}
+
+{% comment %}
+	<div class="well">
+		<form>
+		<input id="search-field" />
+		<input type="submit" value="search">
+		</form>
+		<ul id="results"></ul>
+	</div>
+{% endcomment %}
 	<div class="panel panel-primary">
 		<div class="panel-heading">Developer Docs</div>
 		<div class="panel-body">
@@ -69,3 +79,12 @@ class: about-page
 		<p>Got Questions? Need Help? <a class="btn btn-primary raised" href="https://flybase.io/support/">Talk to us »</a></p>
 	</div>
 </div>
+{% comment %}
+<script src="/js/search.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$("#search-field").camelHunter({
+		rss: "/search.xml",
+		results   : "#results"
+	});
+</script>
+{% endcomment %}

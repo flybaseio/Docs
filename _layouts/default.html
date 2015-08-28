@@ -21,6 +21,8 @@
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 
 	<title> {{ page.title }} </title>
 
@@ -105,67 +107,37 @@
 {% endif %}
 	<!-- ******FOOTER****** --> 
 	<footer class="footer">
-		<div class="footer-content">
-			<div class="container">
-				<div class="row">
-					<div class="footer-col links col-md-2 col-sm-4 col-xs-4">
-						<div class="footer-col-inner">
-							<h4 class="title">What We Do</h4>
-							<ul class="list-unstyled">
-								<li><a href="http://blog.flybase.io/" title="Our Blog"><i class="fa fa-caret-right"></i>Our Blog</a></li>
-								<li><a href="https://flybase.io/pricing/" title="Pricing"><i class="fa fa-caret-right"></i>Pricing</a></li>
-								<li><a href="https://flybase.io/experts/" title="Expert Services"><i class="fa fa-caret-right"></i>Expert Services</a></li>
-								<li><a href="https://flybase.io/training/" title="Training"><i class="fa fa-caret-right"></i>Training</a></li>							
-							</ul>
-						</div><!--//footer-col-inner-->
-					</div><!--//foooter-col-->	
-					<div class="footer-col links col-md-2 col-sm-4 col-xs-4">
-						<div class="footer-col-inner">
-							<h4 class="title">Resources</h4>
-							<ul class="list-unstyled">
-								<li><a href="https://flybase.io/getting-started/" title="Getting Started"><i class="fa fa-caret-right"></i>Getting Started</a></li>
-								<li><a href="https://flybase.io/tutorial/" title="Tutorial"><i class="fa fa-caret-right"></i>Tutorial</a></li>
-								<li><a href="http://docs.flybase.io/" title="Developer Docs"><i class="fa fa-caret-right"></i>Developer Docs</a></li>
-								<li><a href="https://flybase.io/books/" title="Books on Flybase"><i class="fa fa-caret-right"></i>Books</a></li>
-							</ul>
-						</div><!--//footer-col-inner-->
-					</div><!--//foooter-col-->	
-					<div class="footer-col links col-md-2 col-sm-4 col-xs-4">
-						<div class="footer-col-inner">
-							<h4 class="title">Who We Are</h4>
-							<ul class="list-unstyled">
-								<li><a href="https://flybase.io/about/" title="About Flybase"><i class="fa fa-caret-right"></i>About</a></li>
-								<li><a href="https://flybase.io/support/" title="Help & Support"><i class="fa fa-caret-right"></i>Help & Support</a></li>
-								<li><a href="https://flybase.io/contact/" title="Contact us"><i class="fa fa-caret-right"></i>Contact Us</a></li>
-							</ul>
-						</div><!--//footer-col-inner-->
-					</div><!--//foooter-col-->	
-					<div class="footer-col connect col-md-6 col-sm-12 col-xs-12">
-						<div class="footer-col-inner">
-							<ul class="social list-inline">
-								<li><a href="https://twitter.com/flybaseio" target="_blank" title="Twitter"><i class="fa fa-twitter"></i></a></li>
-								<li><a href="//facebok.com/DataMcFly"><i class="fa fa-facebook" title="Facebook"></i></a></li>
-								<li><a href="//github.com/flybaseio"><i class="fa fa-github" title="Github"></i></a></li>
-								<li><a href="http://slack.flybase.io"><i class="fa fa-slack" title="Join Our Slack Community"></i></a></li>
-								<li class="row-end"><a href="//blog.flybase.io" title="Our Blog"><i class="fa fa-rss"></i></a></li>			 
-							</ul>
-							<div class="form-container">
-								<p class="intro">Stay up to date with the latest news and offers from Flybase</p>
-								<form class="signup-form navbar-form" action="//flybase.us9.list-manage.com/subscribe/post?u=3b954fafb0dae072610469e35&amp;id=a35eea690c" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" novalidate>
-									<div class="form-group">
-										<input type="text" class="form-control" name="EMAIL" placeholder="Enter your email address">
-									</div>   
-									<button type="submit" class="btn btn-cta btn-cta-primary" name="subscribe" id="mc-embedded-subscribe">Subscribe Now</button>								 
-									<div style="position: absolute; left: -5000px;"><input type="text" name="b_3b954fafb0dae072610469e35_a35eea690c" tabindex="-1" value=""></div>
-								</form>
-								<p><small>We will never, ever spam you or sell your information. Promise.</small></p>
-	<!--End mc_embed_signup-->
-							</div><!--//subscription-form-->
-						</div><!--//footer-col-inner-->
-					</div><!--//foooter-col-->
+	    <div class="footer-content">
+	        <div class="container">
+				<div class="row text-center">
+	                <div class="footer-col links col-md-12 col-sm-12 col-xs-12">
+	                    <div class="footer-col-inner">
+	                        <ul class="list-unstyled list-inline">
+	                            <li><a href="http://flybase.io/">Home</a></li>
+	                            <li><a href="http://blog.flybase.io/">Our Blog</a></li>
+	                            <li><a href="http://flybase.io//contact/">Contact us</a></li>
+	                        </ul>
+	                        <ul class="list-unstyled list-inline">
+	                            <li><a href="http://flybase.io//getting-started/">Getting Started</a></li>
+	                            <li><a href="http://flybase.io//tutorial/">Tutorial</a></li>
+	                            <li><a href="http://docs.flybase.io/">Developer Docs</a></li>
+	                        </ul>
+	                    </div><!--//footer-col-inner--> 
+	                </div><!--//foooter-col-->    
+	                <div class="footer-col connect col-md-12 col-sm-12 col-xs-12">
+	                    <div class="footer-col-inner">
+	                        <ul class="social list-inline">
+	                            <li><a href="https://twitter.com/flybaseio" target="_blank"><i class="fa fa-twitter"></i></a></li>
+	                            <li><a href="//facebok.com/DataMcFly"><i class="fa fa-facebook"></i></a></li>
+	                            <li><a href="//github.com/flybaseio"><i class="fa fa-github"></i></a></li>
+	                            <li><a href="http://slack.flybase.io"><i class="fa fa-slack" title="Join Our Slack Community"></i></a></li>
+	                            <li class="row-end"><a href="http://blog.flybase.io"><i class="fa fa-rss"></i></a></li>             
+	                        </ul>
+	                    </div><!--//footer-col-inner-->
+	                </div><!--//foooter-col-->
 				</div>
-			</div><!--//container-->
-		</div><!--//footer-content-->
+	        </div><!--//container-->
+	    </div><!--//footer-content-->
 		<div class="bottom-bar">
 			<div class="container">
 				<small class="copyright">
@@ -181,7 +153,5 @@
 			</div><!--//container-->
 		</div><!--//bottom-bar-->
 	</footer><!--//footer-->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 </body>
 </html>
