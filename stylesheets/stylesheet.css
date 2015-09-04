@@ -1091,3 +1091,7 @@ dl dd {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
+#qpick{
+	background-color: rgb(118,156,172);
+	color: #fff !important;
+}
