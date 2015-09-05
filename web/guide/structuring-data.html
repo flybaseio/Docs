@@ -1,27 +1,37 @@
-<?php
-	$pclass = 'about-page';
-	$pageTitle = 'Structuring Data | Web Development Guide | Helper Libraries | Developer Docs | ';
-	include("../../../includes/header.php");	
-?>
+---
+layout: page
+title: Structuring Data - Web Development Guide - Helper Libraries - Developer Docs
+class: contact-page
+permalink: /web/guide/structuring-data.html
+sitemap: false
+---
 <h2>JavaScript Web Guide</h2>
 <div class="container">
+	<ol class="breadcrumb">
+		<li><a href="/">Developer Docs</a></li>
+		<li><a href="/web/">Javascript</a></li>
+		<li><a href="/web/guide">Web Development Guide</a></li>
+		<li class="active">Structuring Data</li>
+	</ol>
+	
 	<div class="text-center well">
 		<h3>Structuring Data</h3>
 		<hr />
 		<p>This guide will cover some of the key concepts in data architecture and best practices for structuring JSON data in Flybase.</p>
 	</div>
-	
-	
-	<div class="docs-section">
+<div class="panel panel-primary">
+	<div class="panel-heading" id="section-start">Getting Started</div>
+	<div class="panel-body"> 
 	  <p>
 	    Building properly structured NoSQL stores requires quite a bit of forethought. We need
 	    to understand, most importantly, how the data will be read back later, and how to
 	    make that process as easily as possible.
 	  </p>
-	
-	  <h3 id="section-denormalizing-data">Avoid Building Nests</h3>
-	
-	
+	</div>
+</div>	
+<div class="panel panel-primary">
+	<div class="panel-heading" id="section-start">Avoid Building Nests</div>
+	<div class="panel-body"> 
 	  <p>
 	    Because we can nest data up to 32 levels deep, it's tempting to think that this should be the
 	    default structure. However, when we fetch data for a document in Flybase, we also retrieve
@@ -62,10 +72,11 @@
 	  </p>
 	
 	</div>
+</div>
 	
-	
-	<div class="docs-section">
-	  <h3 id="section-flatten">Flatten Your Data</h3>
+<div class="panel panel-primary">
+	<div class="panel-heading" id="section-start">Flatten Your Data</div>
+	<div class="panel-body">
 	  <p>
 	    If the data were instead split into separate collections (i.e. denormalized), it could be effeciently
 	    downloaded in segments, as it is needed. Consider this flattened architecture:
@@ -115,11 +126,11 @@
 	    separately and displayed as they arrive, allowing the UI to stay responsive and fast.
 	  </p>
 	</div>
+</div>
 	
-	
-	<div class="docs-section">
-	  <h3 id="section-indices">Creating Data That Scales</h3>
-	
+<div class="panel panel-primary">
+	<div class="panel-heading" id="section-start">Creating Data That Scales</div>
+	<div class="panel-body">
 	  <p>
 	    A lot of times in building apps, it's preferable to download a subset of a list. This is
 	    particularly common if the list contains thousands of records or more. When this relationship
@@ -219,6 +230,6 @@
 	    to quickly and efficiently fetch Kaitlyn's memberships, even when the list of users or groups
 	    scales into the millions.
 	  </p>
-	
+	</div>
 	</div>
 </div>

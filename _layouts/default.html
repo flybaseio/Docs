@@ -67,6 +67,9 @@
 					<li><div>
 						<a href="/" class="btn btn-primary navbar-btn box-shadow--2dp">Home</a>
 					</div></li>
+					<li><div>
+						<a href="#" id="searchbtn" class="btn btn-primary navbar-btn box-shadow--2dp"><i class="fa fa-search"> Search</i></a>
+					</div></li>
 					<li class="dropdown"><div>
 							<a href="#" class="btn btn-primary navbar-btn box-shadow--2dp dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Quick Pick <span class="caret"></span></a>
 						<ul class="dropdown-menu">
@@ -110,6 +113,18 @@
 			</aside>
 {% endcomment %}		
 			<section id="main-content">
+
+<div class="container">
+	<div class="well" id="searchbox" style="display:none;">
+		<form>
+			<div class="input-group">
+			<input id="search-field"  class="form-control input-lg" placeholder="Search the Docs"/>
+			<span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+			</div>
+		</form>
+		<ul id="results"></ul>
+	</div>
+</div>
 			{{ content }}
 			</section>
 		</div>
@@ -171,5 +186,17 @@
 			</div><!--//container-->
 		</div><!--//bottom-bar-->
 	</footer><!--//footer-->
+<script src="/js/search.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$("#searchbtn").click( function(e) {
+		e.preventDefault();
+		$("#searchbox").toggle();
+	});
+	$("#search-field").camelHunter({
+		onKeyUp 			: true,
+		rss: "/search.xml",
+		results   : "#results"
+	});
+</script>
 </body>
 </html>
