@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: redirect
 title: Developer Docs
 subtitle: Getting Started with Flybase
 class: about-page
