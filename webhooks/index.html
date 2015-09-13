@@ -1,0 +1,57 @@
+---
+layout: page
+title: Webhooks - Helper Libraries - Developer Docs
+class: contact-page
+---
+
+<h2>Webhooks</h2>
+<div class="container">
+	<ol class="breadcrumb">
+		<li><a href="/">Developer Docs</a></li>
+		<li class="active">Webhooks</li>
+	</ol>
+	<div class="well">
+		<p>Integrate external services with webhooks to allow</p>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">What are webhooks?</div>
+		<div class="panel-body">
+<p>Webhooks are a simple way to store data in your Flybase apps from external sources. They make use of normal HTTP requests with a JSON payload, which includes the message text and some options.</p>
+
+<p>You can also use outgoing webhooks to send HTTP requests to other sources when new data is added to your Flybase app
+
+{% comment %}	
+	<p>Flybase provides a complete backend solution for your application. Generally, our goal is to eliminate the need for managing servers and writing server-side code. Our PHP SDK is for those applications and situations where server-side code is necessary, or simply preferred.</p>
+	
+	<p>The Flybase PHP SDK is fully open source, and anyone can contribute to make it better, or make their own changes if necessary. Check out the <a href="https://github.com/flybaseio/flybase-php">GitHub</a> repository for more information.</p>
+	
+	<p>The Flybase PHP SDK requires version 5.4 or greater of the PHP runtime.</p>
+{% endcomment %}		
+		</div>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">Incoming Webhooks</div>
+		<div class="panel-body">
+<p>You can use webhooks to handle events such as calls or messages from Twilio, all you have to do is go the <a href="https://app.flybase.io/webhooks">Your Webhooks</a> link in the top right menu of your dashboard, and create a new webhook that generates a unique incoming URL.</p>
+
+<p>When you create a webhook, you can specify which collection inside which app to store data.</p>
+
+<p>We’ve also given you three options for handling incoming data:</p>
+
+<ul>
+	<li>Save All POSTed data</li>
+	<li>Send a JSON string as the payload parameter in a POST request</li>
+	<li>Send a JSON string as the body of a POST request</li>
+</ul>
+
+<p>The reason we’ve done this is to allow you to create more flexible webhooks that let you then store data from more sources.</p>
+		</div>
+	</div>
+	<div class="panel panel-primary">
+		<div class="panel-heading">Outgoing Webhooks <small><em>- Coming soon</em></small></div>
+		<div class="panel-body">
+			<p>Outgoing webhooks are coming soon, they will allow you to post data to external sources based on filtered results, for example you could post 
+	</div>
+</div>
