@@ -2,6 +2,41 @@
 layout: page
 title: Javascript Examples - Web Development Guide - Helper Libraries - Developer Docs
 class: contact-page
+samples:
+  - link: https://github.com/flybaseio/kudos
+    title: Kudos
+    summary: "An open source, plug and play library that can be used with your Flybase apps to add <code>Kudos</code> to any website or blog."
+  - link: https://github.com/flybaseio/callcenter
+    title: ACD Call center
+    summary: "A sample embeddable call center that can be plugged into Salesforce or other CRMs"
+  - link: https://github.com/flybaseio/sms-contact
+    title: SMS Contact Center
+    summary: "Flybase can be used with other services easily to build real-time experiences. This open source app built in Node, is a real-time Twilio-powered contact system that lets agents talk to customers from a browser to a customer's phone via SMS messages."
+  - link: https://github.com/flybaseio/call-ads
+    title: "Click to Call Call Center"
+    summary: "A Real-time Click-to-call call center App powered by Flybase, Twilio and Node.js"
+  - link: https://github.com/DataMcFly/live-blog
+    title: Live Blog App
+    summary: "Flybase and Twilio powered Live Blogging App, build in Node.js."
+  - link: https://github.com/DataMcFly/mctodo
+    title: McToDo
+    summary: "A todo list app illustrating how to use Flybase to build a real-time todo list app."
+  - link: https://github.com/DataMcFly/datamcfly-login
+    title: dmLogin
+    summary: "An open source library that can be used with your Flybase apps to provide user registration and authentication."
+  - link: https://github.com/DataMcFly/dailysm
+    title: Daily SMS
+    summary: "An open source app built in Node that uses Flybase to store phone numbers and Twilio to send a daily SMS message."
+  - link: https://github.com/flybaseio/flybase-work-queue
+    title: Worker Queue
+    summary: "An example of processing data using Flybase as a queuing system"
+  - link: https://github.com/DataMcFly/sidegig
+    title: SideGig.me
+    summary: "An example of using the FIT stack to build a client-side only web app using Angular.js"
+  - link: https://github.com/flybaseio/fit-stack
+    title: FIT Stack
+    summary: "A boilerplate framework for building rapid MVPs, the Fit Stack (Flybase, Interface, Thin servers) lets you quickly build out your apps."
+
 ---
 <h2>Flybase Web Development Guide</h2>
 <div class="container">
@@ -20,102 +55,29 @@ class: contact-page
 	<div class="panel panel-primary">
 		<div class="panel-heading">Open Source Example Apps</div>
 		<div class="panel-body">
-	
-		<p>These example apps demonstrate some core concepts and common (and sometimes uncommon) uses of Flybase.</p>
-		
-		<table class="table table-bordered">
-		<thead>
-			<tr>
-			<th>Name</th>
-			<th>Description</th>
-		</tr>
-		</thead>
-		<tbody>	
+			<p>These example apps demonstrate some core concepts and common (and sometimes uncommon) uses of Flybase.</p>
+			
+			<table class="table table-bordered">
+			<thead>
+				<tr>
+				<th>Name</th>
+				<th>Description</th>
+			</tr>
+			</thead>
+			<tbody>	
+{% if page.samples.size > 0 %}
+	{% for item in page.samples %}
 		<tr>
 			<td class="text-nowrap">
-				<strong><a href="https://github.com/flybaseio/kudos">Kudos</a></strong>
+				<strong><a href="{{ item.link }}">{{ item.title }}</a></strong>
 			</td>
-			<td>
-				An open source, plug and play library that can be used with your Flybase apps to add <code>Kudos</code> to any website or blog.
-			</td>
-		</tr>
-		<tr>
-			<td class="text-nowrap">
-				<strong><a href="https://github.com/flybaseio/sms-contact">SMS Contact Center</a></strong>
-			</td>
-			<td>
-				Flybase can be used with other services easily to build real-time experiences. This open source app built in Node, is a real-time Twilio-powered contact system that lets agents talk to customers from a browser to a customer's phone via SMS messages. <em>The first of several planned call center-type systems.</em>
+			<td style="text-align: left;">{{ item.summary }}
 			</td>
 		</tr>
-		<tr>
-			<td class="text-nowrap">
-				<strong><a href="https://github.com/flybaseio/call-ads">"Click to Call" Call Center</a></strong>
-			</td>
-			<td>
-				<p>A Real-time Click-to-call call center App powered by Flybase, Twilio and Node.js</p>
-			</td>
-		</tr>
-		<tr>
-			<td class="text-nowrap">
-				<strong><a href="https://github.com/DataMcFly/live-blog">Live Blog App</a></strong>
-			</td>
-			<td>
-				Flybase and Twilio powered Live Blogging App, build in Node.js.
-			</td>
-		</tr>
-		<tr>
-			<td class="text-nowrap">
-				<strong><a href="https://github.com/DataMcFly/mctodo">McToDo</a></strong>
-			</td>
-			<td>
-				A todo list app illustrating how to use Flybase to build a real-time todo list app.
-			</td>
-		</tr>
-		<tr>
-			<td class="text-nowrap">
-				<strong><a href="https://github.com/DataMcFly/datamcfly-login">dmLogin</a></strong>
-			</td>
-			<td>
-				An open source library that can be used with your Flybase apps to provide user registration and authentication.	
-			</td>
-		</tr>
-		<tr>
-			<td class="text-nowrap">
-				<strong><a href="https://github.com/DataMcFly/dailysms">Daily SMS</a></strong>
-			</td>
-			<td>
-				An open source app built in Node that uses Flybase to store phone numbers and Twilio to send a daily SMS message.	
-			</td>
-		</tr>
-		<tr>
-			<td class="text-nowrap">
-				<strong><a href="https://github.com/flybaseio/flybase-work-queue">Worker Queue</a></strong>
-			</td>
-			<td>
-				An example of processing data using Flybase as a queuing system
-			</td>
-		</tr>
-		<tr>
-			<td class="text-nowrap">
-				<strong><a href="https://github.com/DataMcFly/sidegig">SideGig.me</a></strong>
-			</td>
-			<td>
-				An example of using the FIT stack to build a client-side only web app using Angular.js
-			</td>
-		</tr>
-		<tr>
-			<td class="text-nowrap">
-				<strong><a href="https://github.com/flybaseio/fit-stack">FIT Stack</a></strong>
-			</td>
-			<td>
-				A boilerplate framework for building rapid MVPs, the Fit Stack (Flybase, Interface, Thin servers) lets you quickly build out your apps.
-			</td>
-		</tr>
-		</tbody>
-		</table>
-		</div>
-		<div class="well well-sm" style="margin:10px;">
-			<p>We're still moving some examples from our original repos to our new Flybase repos, so some code may still say <code>Data Mcfly</code> rather than <code>Flybase</code>, this is fine, for the most part, the code is the same, the only difference is the libraries they use, which still point to the same API and do the same job.</p>
+	{% endfor %}
+{% endif %}
+			</tbody>
+			</table>
 		</div>
 	</div>
 	
