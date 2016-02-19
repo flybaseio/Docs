@@ -1,5 +1,5 @@
 name: Flybase.io Docs
-markdown: redcarpet
+markdown: kramdown
 
 gems:
   - jekyll-sitemap
