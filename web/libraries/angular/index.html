@@ -18,7 +18,302 @@ class: contact-page
 		<a href="https://cdn.flybase.io/angularfly.js" class="btn btn-primary">Download</a>
 		<a href="https://github.com/flybaseio/angularfly" class="btn btn-primary">Contribute on GitHub</a>
 	</div>
+	<hr />	
+
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Create an account</h3>
+		</div>
+		<div class="panel-body">
 	
+	<p>The first thing you need to do to get started with Flybase is <a href="https://app.flybase.io/signup">sign up for a free account</a>.</p>
+	
+			<div class="well">
+				<img src="https://flybase.io/assets/images/dashboard.jpg" style="width:98%;height:auto;" />
+			</div>
+	
+	<p>Once you sign up, create your first app and make a note of your <code>API Key</code>, and the name of your app. We'll use this URL to store and sync data.
+		</div>
+		<br />
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Install Flybase</h3>
+		</div>
+		<div class="panel-body">
+	
+			<p>
+			To include the Flybase client library in your website, add a script tag to the <code>&lt;head&gt;</code> section of your HTML file. We recommend including the library directly from our CDN:
+			</p>
+			
+			<pre><code class="language-javascript">
+	&lt;!-- AngularJS -->
+	&lt;script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js">&lt;/script>
+	
+	&lt;!-- Flybase -->
+	&lt;script src="https://cdn.flybase.io/flybase.js">&lt;/script>
+	
+	&lt;!-- Flybase Angular -->
+	&lt;script src="https://cdn.flybase.io/angularfly.js">&lt;/script>
+	
+			</code></pre>
+			
+			<p>You can also install Flybase as a Bower dependency by typing <code>bower install flybase</code> and <code>bower install angularfly</code>.</p>
+		</div>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Inject the AngularFly Services</h3>
+		</div>
+		<div class="panel-body">	
+	
+			<p>Before we can use AngularFly with dependency injection, we need to register <code>flybaseResourceHttp</code> as a module in our application.</p>
+		
+			<pre><code class="language-javascript">
+	var app = angular.module('testApp', ['ngRoute', 'flybaseResourceHttp']);
+	app.constant('FLYBASE_CONFIG',{API_KEY:'your key goes here', DB_NAME:'angularjs'});
+			</code></pre>
+	
+			<p>As part of our setup, we've also instructed our app to use our <code>API_KEY</code> and <code>APP_NAME</code>, we don't need to specify collections, as collections will be handled when we create our factory.</p>
+			
+		</div>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Create Our Factory</h3>
+		</div>
+		<div class="panel-body">	
+	
+			<p>Then, creating new resources is very, very easy and boils down to calling <code>$flybaseResource</code> with a Flybase collection name:</p>
+	
+			<pre><code class="language-javascript">
+	app.factory('Message', function ($flybaseResourceHttp) {
+		return $flybaseResourceHttp('messages');
+	});
+			</code></pre>
+		</div>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Build Our Controllers and Views</h3>
+		</div>
+		<div class="panel-body">
+	
+			<p>As soon as you've created your factory, you are ready to inject and use a freshly created resource in your services and controllers:</p>
+	
+			<div role="tabpanel">
+				<ul class="nav nav-tabs" role="tablist" id="myTab">
+					<li role="presentation" class="active"><a href="#javavscript" aria-controls="javavscript" role="tab" data-toggle="tab">JavaScript</a></li>
+					<li role="presentation"><a href="#html1" aria-controls="html1" role="tab" data-toggle="tab">index.html</a></li>
+					<li role="presentation"><a href="#html2" aria-controls="html2" role="tab" data-toggle="tab">list.html</a></li>
+					<li role="presentation"><a href="#html3" aria-controls="html3" role="tab" data-toggle="tab">form.html</a></li>				
+				</ul>
+				<div class="tab-content well">
+					<div role="tabpanel" class="tab-pane fade in active" id="javavscript">
+						<pre><code class="language-javascript">
+	app.controller('AppController', function ($scope, $timeout, Message) {
+	    Message.all().then(function(messages){
+	        $scope.messages = messages;
+	    });
+	
+		//	grab the Flybase object...
+		var Ref = Message.flybase();
+		
+		//	set up events to listen for changes...
+		Ref.on('added', function( data ){
+			$timeout(function() {
+				$scope.messages.push( data.value() );
+			});
+		});
+	
+		Ref.on('changed', function( data ){
+			$timeout(function() {
+				var snapshot = data.value();
+				for( i in $scope.messages ){
+					var project = $scope.messages[ i ];
+					if( project._id == snapshot._id ){
+						$scope.messages[ i ] = snapshot;
+					}
+				}
+			});
+		});
+	
+		Ref.on('removed', function( data ){
+			$timeout(function() {
+				var snapshot = data.value();
+				for( i in $scope.messages ){
+					var project = $scope.messages[ i ];
+					if( project._id == snapshot._id ){
+						$scope.messages.splice(i, 1);
+					}
+				}
+			});
+		});
+	
+	});
+	app.controller('MessageController', function ($scope, $route, $window, message) {
+		var messageCopy = angular.copy( message );
+		$scope.message = message;
+	
+		$scope.save = function(){
+			$scope.message.$saveOrUpdate().then( function(returnData){
+				console.log( returnData );
+				$window.location.assign('/');
+			}, function(error) {
+				throw new Error('Sth went wrong...');
+			});
+		};
+		
+		$scope.remove = function() {
+			$scope.message.$remove(function() {
+				$window.location.assign('/');
+			}, function() {
+				throw new Error('Sth went wrong...');
+			});
+		};
+	
+		$scope.hasChanges = function(){
+			return !angular.equals($scope.message, messageCopy);
+		};
+	});
+	
+	app.config(function ($routeProvider) {
+		$routeProvider.when('/list', {templateUrl:'list.html', controller:'AppController', resolve:{
+			messages:function(Message){
+				return Message.all();
+			}
+		}}).when('/edit/:id', {templateUrl:'form.html', controller:'MessageController', resolve:{
+			message:function(Message, $route){
+				return Message.getById($route.current.params.id);
+			} 
+		}})
+		.when('/new', {templateUrl:'form.html', controller:'MessageController', resolve:{
+			message:function(Message){
+				return new Message();
+			}
+		}})
+		.otherwise({redirectTo:'/list'});
+	});
+	
+						</code></pre>
+					</div>
+					<div role="tabpanel" class="tab-pane fade in" id="html1">
+						<pre><code class="language-javascript">
+	&lt;!doctype html>
+	&lt;html ng-app="testApp" >
+	&lt;head>
+		&lt;meta charset="utf-8">
+		&lt;title>Flybase resource with promises support&lt;/title>
+		&lt;link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+	
+		&lt;!-- AngularJS -->
+		&lt;script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.js">&lt;/script>
+		&lt;script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular-route.js">&lt;/script>
+	
+		&lt;!-- Flybase -->
+		&lt;script src="https://cdn.flybase.io/flybase.js">&lt;/script>
+	
+		&lt;!-- AngularFly -->
+		&lt;script src="https://cdn.flybase.io/angularfly.js">&lt;/script>
+	&lt;/head>   
+	&lt;body>
+		&lt;header>
+			&lt;h1>Flybase Angular&lt;/h1>
+		&lt;/header>
+		&lt;div ng-view>&lt;/div>
+	&lt;/body>
+	&lt;/html>
+						</code></pre>
+					</div>
+					<div role="tabpanel" class="tab-pane fade in" id="html2">
+						<pre><code class="language-javascript">
+	&lt;h3>Messages&lt;/h3>
+	&lt;ul>
+		&lt;li ng-repeat="message in messages">
+			{{message.text}}
+			&lt;a ng-href="#/edit/{{message.$id()}}">edit&lt;/a>
+		&lt;/li>
+	&lt;/ul>
+	&lt;div class="well">
+		&lt;a class="btn btn-default" ng-href="#/new">New Message&lt;/a>
+	&lt;/div>
+						</code></pre>
+					</div>
+					<div role="tabpanel" class="tab-pane fade in" id="html3">
+						<pre><code class="language-javascript">
+	&lt;form name="form">
+		&lt;div class="form-group">
+			&lt;label>Message&lt;/label>
+			&lt;input type="text" ng-model="message.text" class="form-control">
+		&lt;/div>
+		&lt;div class="well">
+			&lt;a class="btn btn-primary" ng-click="save()" ng-disabled="!hasChanges()||form.$invalid">Save&lt;/a>
+			&lt;a class="btn btn-warning" ng-href="#/">Go Back&lt;/a>
+			&lt;a class="btn btn-danger" ng-click="remove()" ng-disabled="!message.$id()">Remove&lt;/a>
+		&lt;/div>
+	&lt;/form>
+						</code></pre>
+					</div>
+				</div>
+			</div>		
+		</div>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Further Reading</h3>
+		</div>
+		<div class="panel-body">
+	
+			<p>Since this <code>$resource-like</code> implementation is based on <code>$http</code> and returns a promise.</p>
+			
+			<p>Each resource created with the <code>$flybaseResourceHttp</code> will be equipped with the following methods:</p>
+			
+			<ul>
+				<li> on the class level:
+					<ul>
+					    <li> <code>Resource.all([options])</code></li>
+					    <li> <code>Resource.query(criteriaObject,[options])</code></li>
+					    <li> <code>Resource.getById(idString)</code></li>
+					    <li> <code>Resource.getByIds(idsArray)</code></li>
+					    <li> <code>Resource.count(criteriaObject)</code></li>
+					    <li> <code>Resource.distinct(fieldName, criteriaObject)</code></li>
+					</ul>
+				</li>
+				<li> on an instance level:
+					<ul>
+					    <li> <code>resource.$id()</code></li>
+					    <li> <code>resource.$save()</code></li>
+					    <li> <code>resource.$update()</code></li>
+					    <li> <code>resource.$saveOrUpdate()</code></li>
+					    <li> <code>resource.$remove()</code></li>
+					</ul>
+				</li>
+			</ul>
+			
+			<p>Resource <code>all</code> and <code>query</code> supported options:</p>
+			
+			<ul>
+				<li> <code>sort</code>: ex.: <code>Resource.all({ sort: {priority: 1} });</code></li>
+				<li> <code>limit</code>: ex.: <code>Resource.all({ limit: 10 });</code></li>
+				<li> <code>fields</code>: <code>1</code> - includes a field, <code>0</code> - excludes a field, ex.: <code>Resource.all({ fields: {name: 1, notes: 0} });</code></li>
+				<li> <code>skip</code>: ex.: <code>Resource.all({ skip: 10 });</code></li>
+			</ul>
+			
+			<p>You also have access to all the usual Flybase javascript commands through the <code>Flybase</code> object:</p>
+			 	
+			<pre><code class="language-javascript">
+	var ref = Project.flybase();
+			</code></pre>
+			
+		</div>
+	</div>
+	
+{% comment %}	
 	<div class="panel panel-primary">
 		<div class="panel-heading">5 Minute Quickstart</div>
 		<div class="panel-body">
@@ -26,6 +321,7 @@ class: contact-page
 			<p><a class="btn btn-primary raised" href="/web/libraries/angular/quickstart/">Read Now</a></p>
 		</div>
 	</div>
+{% endcomment %}
 {% comment %}
 	<div class="panel panel-primary">
 		<div class="panel-heading">Step by Step Guide</div>
