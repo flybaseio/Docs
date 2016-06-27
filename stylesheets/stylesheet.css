@@ -771,6 +771,15 @@ h3.panel-title:before{
 	content: "" !important;
 }
 
+.panel-body h3,.panel-body h2,.panel-body h4,.panel-body h5,.panel-body h6{
+	margin-top: 5px !important;
+	margin-left: 25px;
+}
+
+.panel-body h3:before,.panel-body h2:before,.panel-body h4:before,.panel-body h5:before,.panel-body h6:before{
+	content: "" !important;
+}
+
 p {
   margin-bottom: 20px;
 }
