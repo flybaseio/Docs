@@ -1,0 +1,309 @@
+---
+layout: page
+title: Ionic - Web Development Guide - Helper Libraries - Developer Docs
+class: contact-page
+---
+
+<h2>Ionic</h2>
+<div class="container">
+	<ol class="breadcrumb">
+		<li><a href="/">Developer Docs</a></li>
+		<li><a href="/web/">Javascript</a></li>
+		<li><a href="/web/libraries">Javascript Libraries</a></li>
+		<li class="active">Ionic</li>
+	</ol>
+	
+	<div class="text-center well">
+		<h3>Ionic</h3>
+{% comment %}
+		<a href="https://cdn.flybase.io/reactfly.min.js" class="btn btn-primary">Download</a>
+		<a href="https://github.com/flybaseio/reactfly" class="btn btn-primary">Contribute on GitHub</a>
+<a href="/web/libraries/react/guide/" class="btn btn-primary">Ionic guide</a>
+<a href="/web/libraries/react/reference/" class="btn btn-primary">Ionic API reference</a>
+{% endcomment %}
+	</div>
+
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Create an account</h3>
+		</div>
+		<div class="panel-body">
+			<p>The first thing we need to do is <a href="https://flybase.io/">sign up for a free Flybase account</a>.
+			A brand new Flybase project will automatically be created for you which you will use in conjunction
+			with Ionic to store and sync data.</p>
+		</div>
+	</div>
+
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Creating a New Ionic App</h3>
+		</div>
+		<div class="panel-body">
+
+			<p>This guide assumes you are familiar with the basics of Ionic. If you're new to Ionic, check out the Ionic <a href="http://ionicframework.com/getting-started/">getting started page</a> or their comprehensive <a href="http://ionicframework.com/docs/guide/">guide</a>. Here we'll use the <a href="http://ionicframework.com/docs/cli/install.html">Ionic CLI</a>, a command line utility provided by Ionic. To install it, we'll run the command:</p>
+
+<pre><code class="language-javascript">
+$ npm install -g ionic
+</code></pre>
+
+<div class="well">
+	<h4>For Mac users developing on iOS</h4>
+	<p>
+	iOS apps can only be run on a Mac. If you're developing on a Mac and want to run your app on iOS, you'll need to <a href="https://itunes.apple.com/us/app/xcode/id497799835?mt=12">install XCode</a> from the Mac App Store and then <a href="https://www.npmjs.com/package/ios-sim">ios-sim</a> from npm using the following command:
+	</p>
+	
+	<pre><code class="language-javascript">
+	$ npm install -g ios-sim
+	</code></pre>
+</div>
+
+	<p>Once we've installed the CLI, we can generate a blank Ionic application template by running:</p>
+
+<pre><code class="language-javascript">
+$ ionic start myapp blank
+</code></pre>
+
+	<p>All of the code we'll be writing will be within the <code>www/</code> directory. To tell Ionic that we want to enable the app for iOS and Android, we'll run the commands:</p>
+
+<pre><code class="language-javascript">
+$ ionic platform add ios
+$ ionic platform add android
+</code></pre>
+
+	<p>More details on setting up different platforms can be found in the  <a href="http://ionicframework.com/docs/cli/run.html">Ionic documentation</a>.</p>
+		</div>
+</div>
+
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Including Flybase</h3>
+		</div>
+		<div class="panel-body">
+			<p>We'll include the Flybase and AngularFly libraries as dependencies in our index.html file, right before our app.js include.</p>
+
+	<pre><code class="language-javascript">
+&lt;!-- Flybase -->
+&lt;script src="https://cdn.flybase.io/flybase.js">&lt;/script>
+
+&lt;!-- AngularFly -->
+&lt;script src="https://cdn.flybase.io/angularfly.js">&lt;/script>
+	</code></pre>
+
+<p>Then, in our app.js file we need to add flybase as a dependency in our application module:</p>
+
+	<pre><code class="language-javascript">
+angular.module("starter", ["ionic", "flybaseResourceHttp"])
+.constant('FLYBASE_CONFIG',{API_KEY:'your key goes here', DB_NAME:'angularjs'})
+	</code></pre>
+
+	<p>As part of our setup, we've also instructed our app to use our <code>API_KEY</code> and <code>APP_NAME</code>, we don't need to specify collections, as collections will be handled when we create our factory.</p>
+
+<p>Now we're ready to store and sync data with AngularFly</p>
+
+		</div>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Create Our Factory</h3>
+		</div>
+		<div class="panel-body">	
+	
+			<p>Then, creating new resources is very, very easy and boils down to calling <code>$flybaseResourceHttp</code> with a Flybase collection name:</p>
+	
+			<pre><code class="language-javascript">
+	app.factory('Items', function ($flybaseResourceHttp) {
+		return $flybaseResourceHttp('items');
+	});
+			</code></pre>
+		</div>
+	</div>	
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Viewing Data</h3>
+		</div>
+		<div class="panel-body">
+<p>Let's build a simple grocery list app. We manage the grocery list and connect the Flybase database into the app inside of the <code>ListCtrl</code> controller. The controller code can be found inside <code>app.js</code>.</p>
+
+<p>The <code>&lt;ion-header-bar&gt;</code> is a directive provided by Ionic. It creates a mobile-friendly navigation menu. For now, it just contains a button for adding groceries to the list, which will invoke the <code>addItem()</code> method inside <code>ListCtrl</code>. The css class <code>ion-plus</code> will create a plus sign button using Ionic's <a href="http://ionicons.com/">Ionicon</a> library.</p>
+
+			<pre><code class="language-javascript">
+&lt;body ng-app="starter" ng-controller="ListCtrl">
+	&lt;ion-header-bar class="top">
+		&lt;h1 class="title">Items</h1>
+			&lt;button class="button button-icon ion-plus" ng-click="addItem()">&lt;/button>
+	&lt;/ion-header-bar>
+&lt;/body>
+			</code></pre>
+			
+<p>Ionic provides some handy tools for dealing with lists: <code>&lt;ion-list&gt;</code> and <code>&lt;ion-item&gt;</code>. We'll nest those inside an <code>&lt;ion-content&gt;</code> directive to indicate that this is the main body of the view. These may look familiar if you're familiar with table cells or list items in mobile.</p>
+
+			<pre><code class="language-javascript">
+&lt;ion-content>
+	&lt;ion-list>
+		&lt;ion-item ng-repeat="item in items">{{item.name}}&lt;/ion-item>
+	&lt;/ion-list>
+&lt;/ion-content>
+			</code></pre>
+
+<p>
+Now that we have a UI for adding items to our list, we'll write a function to save our list items to our database using Flybase.
+</p>
+
+		</div>
+	</div>	
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Saving Data</h3>
+		</div>
+		<div class="panel-body">
+
+<p>To save data, we'll create an <code>Items</code> factory that uses <code>$flybaseResourceHttp</code>, a service provided by the AngularFly library to synchronize our local Angular array with our remote data:</p>
+
+<p>Edit <code>app.js</code> and add:</p>
+
+			<pre><code class="language-javascript">
+.factory('Items', function ($flybaseResourceHttp) {
+	return $flybaseResourceHttp('items');
+})
+			</code></pre>
+			
+<p>This will create a <code>factory</code> called <code>Items</code> which we can use to read and write to our database table called <code>items</code>.</p>
+
+<p>Now we can create our <code>ListCtrl</code> and inject our Items factory as a dependency:</p>
+
+			<pre><code class="language-javascript">
+.controller("ListCtrl", function($scope, Items) {
+    Items.all().then(function(items){
+        $scope.items = items;
+    });
+
+	$scope.addItem = function() {
+		var name = prompt("What do you need to buy?");
+		if (name) {
+			newItem = new Items();
+			newItem.name = name;
+			newItem.$save().then(function(newData) {
+			});
+		}
+	};
+});
+			</code></pre>
+
+This shows the user a prompt to add a new grocery item, and then we use AngularFly's $add function to add the item to our synchronized array. Now when we add items, they'll be stored under a unique ID generated in the database.
+
+		</div>
+	</div>	
+
+{% comment %}
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">4. Add the <code>IonicMixin</code></h3>
+		</div>
+		<div class="panel-body">
+	
+			<p>Ionic exposes the <code>IonicMixin</code> which extends the functionality of a React component, adding
+	additional Flybase-specific methods to it. These methods allow us to create a <strong>one-way data
+	binding from our Flybase database to our component's <code>this.state</code> variable</strong>. Add the
+	</code>IonicMixin</code> to our component's <code>mixins</code> list:</p>
+	
+	<pre><code class="language-javascript">
+var ExampleComponent = React.createClass({
+  mixins: [IonicMixin],
+  // ...
+});
+	</code></pre>
+		</div>
+	</div>	
+
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">5. Bind to Flybase</h3>
+		</div>
+		<div class="panel-body">
+	
+			<p>Because of the data binding provided by Ionic, any changes to our remote database will be
+	reflected in realtime to <code>this.state</code>. The data binding does not work in the other way - changes
+	made to the <code>this.state</code> have no effect on our database. Any changes which we want to make to
+	</code>this.state</code> should instead be changed in our database directly by using the Flybase client
+	library. Ionic will handle the work of then updating <code>this.state</code>.</p>
+	
+	<p><strong>Note that Ionic creates a one-way data binding from our database to our component, not the
+	other way around.</strong></p>
+	
+	<p>Taking <code>ExampleComponent</code> above, we can keep <code>this.state.items</code> in sync with any changes to an
+	</code>items</code> node in the database by using Ionic in the component's <code>componentWillMount()</code> method:</p>
+	
+	<pre><code class="language-javascript">
+componentWillMount: function() {
+  var ref = flybase.database().ref("items");
+  this.bindAsArray(ref, "items");
+}
+	</code></pre>
+	
+	<p>Now, if we add an item to the <code>items</code> node in the database, that change will be automatically
+	reflected in <code>this.state.items</code>. We have the option of binding the data from the database as a
+	JavaScript array (via <code>bindAsArray()</code>) or object (via <code>bindAsObject()</code>).</p>
+	
+		</div>
+	</div>	
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">6. Unbind from Flybase</h3>
+		</div>
+		<div class="panel-body">
+	
+			<p>When our React component goes out of scope or is being unmounted, Ionic will automatically
+	unbind any open connections to our Flybase database. If we want to do this manually at an earlier
+	time (that is, while the component is still mounted), Ionic provides an <code>unbind()</code> method. For
+	example, if we no longer want <code>this.state.items</code> to be bound to node, we can call
+	 <code>this.unbind("items")</code> from anywhere within our component.</p>
+	
+		</div>
+	</div>	
+{% endcomment %}
+
+
+{% comment %}
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">7. Next steps</h3>
+		</div>
+		<div class="panel-body">
+	
+			<p>This was just a quick run through of the basics of Ionic. For a more in-depth explanation of how
+	to use Ionic, <a href="/web/libraries/react/guide/">check out the Ionic guide</a> or dig right into the
+	<a href="/web/libraries/react/reference/">Ionic API reference</a>.</p>
+		</div>
+	</div>	
+{% endcomment %}
+
+{% comment %}
+	<hr />	
+	<div class="panel panel-primary">
+		<div class="panel-heading">5 Minute Quickstart</div>
+		<div class="panel-body">
+			<p>Take our 5 minute introduction to get started with your first Ionic app.</p>
+			<p><a class="btn btn-primary raised" href="/web/libraries/react/quickstart/">Read Now</a></p>
+		</div>
+	</div>
+
+	<div class="panel panel-primary">
+		<div class="panel-heading">Step by Step Guide</div>
+		<div class="panel-body">
+			<p>Follow our step by step guide for developing web applications with Ionic. The guide provides in depth coverage for every core feature in Ionic and the recommended best practices to follow when developing your application.</p>
+			<p><a class="btn btn-primary raised" href="/web/libraries/react/guide/">Read Now</a></p>
+		</div>
+	</div>
+	<div class="panel panel-primary">
+		<div class="panel-heading">Javascript Examples</div>
+		<div class="panel-body">
+			<p>Open source applications or code examples that we wrote and maintain. These resources are geared to help you learn Flybase or speed up development time by using a drop in application.</p>
+			<p><a class="btn btn-primary raised" href="/web/examples/">Read Now</a></p>
+		</div>
+	</div>
+{% endcomment %}
+</div>
