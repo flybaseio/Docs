@@ -25,26 +25,26 @@ class: contact-page
 
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h3 class="panel-title">1. Create an account</h3>
+			<h3 class="panel-title">Create an account</h3>
 		</div>
 		<div class="panel-body">
-			<p>The first thing we need to do is <a href="https://flybase.io/">sign up for a free Flybase account</a>.
-			A brand new Flybase project will automatically be created for you which you will use in conjunction
-			with ReactFly to store and sync data.</p>
+			<p>The first thing you need to do to get started with Flybase is <a href="https://app.flybase.io/signup">sign up for a free account</a>.</p>
+			<div class="well">
+				<img src="https://flybase.io/assets/images/dashboard.jpg" style="width:98%;height:auto;" />
+			</div>
+			<p>Once you sign up, create your first app and make a note of your <code>API Key</code>, and the name of your app. We'll use this URL to store and sync data.
 		</div>
 	</div>
 
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h3 class="panel-title">2. Include Flybase and ReactFly</h3>
+			<h3 class="panel-title">Install Flybase and ReactFly</h3>
 		</div>
 		<div class="panel-body">
-	
-	<p>To use ReactFly in our website, we need to add it along with all its dependencies to the <code>&lt;head></code>
-	section of our HTML file. We recommend including the Flybase and ReactFly libraries directly from
-	our CDN:</p>	
-	
-	<pre><code class="language-javascript">
+
+			<p>To include the Flybase client library in your website, add a script tag to the <code>&lt;head&gt;</code> section of your HTML file. We recommend including the library directly from our CDN:</p>
+			
+			<pre><code class="language-javascript">
 &lt;!-- React JS -->
 &lt;script src="https://fb.me/react-15.1.0.js">&lt;/script>
 &lt;script src="https://fb.me/react-dom-15.1.0.js">&lt;/script>
@@ -54,22 +54,29 @@ class: contact-page
 
 &lt;!-- ReactFly -->
 &lt;script src="https://cdn.flybase.io/reactfly.min.js">&lt;/script>
-	</code></pre>
+	
+			</code></pre>
+			
+			<p>You can also install Flybase as a Bower dependency by typing <code>bower install flybase</code> and <code>bower install reactfly</code>.</p>
 
 		</div>
 	</div>
 	
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h3 class="panel-title">3. Initialize the Flybase library</h3>
+			<h3 class="panel-title">Initialize the Flybase library</h3>
 		</div>
 		<div class="panel-body">
 	
-			<p>We'll need to initialize the Flybase library before we can use it. This should happen one time, outside of your React component. You can find more details on the [web](https://docs.flybase.io/web/setup) setup guide.</p>
+			<p>Before we can use Flybase or ReactFly, we'll need to initialize the Flybase library before we can use it.</p>
+
+			<p>This should happen one time, outside of your React component. You can find more details on the [web](https://docs.flybase.io/web/setup) setup guide.</p>
+			
+			<p>In this case, we want to create a flybase Reference to a collection called <code>todos</code> in our database.:</p>
 			
 			<pre><code class="language-javascript">
 &lt;script>
-	var flybaseRef = new Flybase("YOUR-API-KEY", "sample", "todo");
+	var flybaseTodoRef = new Flybase("YOUR-API-KEY", "sample", "todos");
 &lt;/script>
 			</code></pre>
 		</div>
@@ -77,75 +84,61 @@ class: contact-page
 
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h3 class="panel-title">4. Add the <code>ReactFlyMixin</code></h3>
+			<h3 class="panel-title">Inject the <code>ReactFlyMixin</code></h3>
 		</div>
 		<div class="panel-body">
 	
-			<p>ReactFly exposes the <code>ReactFlyMixin</code> which extends the functionality of a React component, adding
+			<p>ReactFly uses the <code>ReactFlyMixin</code> which extends the functionality of a React component, adding
 	additional Flybase-specific methods to it. These methods allow us to create a <strong>one-way data
 	binding from our Flybase database to our component's <code>this.state</code> variable</strong>. Add the
 	</code>ReactFlyMixin</code> to our component's <code>mixins</code> list:</p>
 	
-	<pre><code class="language-javascript">
-var ExampleComponent = React.createClass({
+<pre><code class="language-javascript">
+var MyReactComponent = React.createClass({
   mixins: [ReactFlyMixin],
   // ...
 });
-	</code></pre>
+</code></pre>
+
 		</div>
 	</div>	
 
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h3 class="panel-title">5. Bind to Flybase</h3>
+			<h3 class="panel-title">Bind to Flybase</h3>
 		</div>
 		<div class="panel-body">
 	
-			<p>Because of the data binding provided by ReactFly, any changes to our remote database will be
-	reflected in realtime to <code>this.state</code>. The data binding does not work in the other way - changes
+			<p>As a result of the data binding provided by ReactFly, any changes to our remote database will be
+	reflected in real-time to <code>this.state</code>. The data binding does not work in the other way - changes
 	made to the <code>this.state</code> have no effect on our database. Any changes which we want to make to
 	</code>this.state</code> should instead be changed in our database directly by using the Flybase client
 	library. ReactFly will handle the work of then updating <code>this.state</code>.</p>
 	
-	<p><strong>Note that ReactFly creates a one-way data binding from our database to our component, not the
-	other way around.</strong></p>
+	<p>Just remember that ReactFly creates a one-way data binding from our database to our component, not the
+	other way around.</p>
 	
-	<p>Taking <code>ExampleComponent</code> above, we can keep <code>this.state.items</code> in sync with any changes to an
-	</code>items</code> node in the database by using ReactFly in the component's <code>componentWillMount()</code> method:</p>
+	<p>Taking <code>MyReactComponent</code> above, we can keep <code>this.state.todos</code> in sync with any changes to an
+	</code>todos</code> collection in the database by using ReactFly in the component's <code>componentWillMount()</code> method:</p>
 	
-	<pre><code class="language-javascript">
+<pre><code class="language-javascript">
 componentWillMount: function() {
-  var ref = flybase.database().ref("items");
-  this.bindAsArray(ref, "items");
+	this.bindAsArray(flybaseTodoRef.limit(25).orderBy({"_id":-1}), 'todos');
 }
-	</code></pre>
+</code></pre>
 	
-	<p>Now, if we add an item to the <code>items</code> node in the database, that change will be automatically
-	reflected in <code>this.state.items</code>. We have the option of binding the data from the database as a
-	JavaScript array (via <code>bindAsArray()</code>) or object (via <code>bindAsObject()</code>).</p>
+			<p>Now, if we add an item to the <code>todos</code> collection in the database, that change will be automatically
+			reflected in <code>this.state.todos</code>. We have the option of binding the data from the database as a
+			JavaScript array (via <code>bindAsArray()</code>) or object (via <code>bindAsObject()</code>).</p>
 	
-		</div>
-	</div>	
-	
-	<div class="panel panel-primary">
-		<div class="panel-heading">
-			<h3 class="panel-title">6. Unbind from Flybase</h3>
-		</div>
-		<div class="panel-body">
-	
-			<p>When our React component goes out of scope or is being unmounted, ReactFly will automatically
-	unbind any open connections to our Flybase database. If we want to do this manually at an earlier
-	time (that is, while the component is still mounted), ReactFly provides an <code>unbind()</code> method. For
-	example, if we no longer want <code>this.state.items</code> to be bound to node, we can call
-	 <code>this.unbind("items")</code> from anywhere within our component.</p>
-	
+			<p>If you want to add other collections to be used, then you would create a new Flybase object and bind that as well.</p>
 		</div>
 	</div>	
 
 {% comment %}
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h3 class="panel-title">7. Next steps</h3>
+			<h3 class="panel-title">Next steps</h3>
 		</div>
 		<div class="panel-body">
 	
