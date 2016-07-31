@@ -123,15 +123,33 @@ var MyReactComponent = React.createClass({
 	
 <pre><code class="language-javascript">
 componentWillMount: function() {
-	this.bindAsArray(flybaseTodoRef.limit(25).orderBy({"_id":-1}), 'todos');
+	this.bindAsArray(flybaseTodoRef, 'todos');
 }
 </code></pre>
-	
+
 			<p>Now, if we add an item to the <code>todos</code> collection in the database, that change will be automatically
 			reflected in <code>this.state.todos</code>. We have the option of binding the data from the database as a
 			JavaScript array (via <code>bindAsArray()</code>) or object (via <code>bindAsObject()</code>).</p>
 	
 			<p>If you want to add other collections to be used, then you would create a new Flybase object and bind that as well.</p>
+
+{% comment %}
+			<p>You can actually control how data initially appears, for example if you wanted to limit the initial data to the 25 most recent items, you could use this command:</p>
+			
+<pre><code class="language-javascript">
+componentWillMount: function() {
+	this.bindAsArray(flybaseTodoRef.limit(25).orderBy({"_id":-1}), 'todos');
+}
+</code></pre>
+
+<p>With Flybase, you can also perform actual queries, so for example, the following code will perform a query to return the user with an <code>_id</code> of <code>uniquedocid-2</code> as an object and make it available as <code>this.state.user</code> within your component:</p>
+
+<pre><code class="language-javascript">componentWillMount: function() {
+	var flybaseUserRef = new Flybase("YOUR-API-KEY", "sample", "user");
+	this.bindAsObject(flybaseUserRef.where({"_id": "uniquedoc-2"}), "user");
+}			
+</code></pre>
+{% endcomment %}
 		</div>
 	</div>	
 
