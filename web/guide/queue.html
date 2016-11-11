@@ -1,0 +1,87 @@
+---
+layout: page
+title: Using the Queue - Web Development Guide - Helper Libraries - Developer Docs
+class: contact-page
+permalink: /web/guide/queue.html
+---
+<h2>JavaScript Web Guide</h2>
+<div class="container">
+	<ol class="breadcrumb">
+		<li><a href="/">Developer Docs</a></li>
+		<li><a href="/web/">Javascript</a></li>
+		<li><a href="/web/guide">Web Development Guide</a></li>
+		<li class="active">Using the Queue</li>
+	</ol>
+
+	<div class="text-center well">
+		<h3>Using the Queue</h3>
+	</div>
+
+	<div class="panel panel-primary">
+		<div class="panel-heading" id="section-start">Getting Started</div>
+		<div class="panel-body">
+			<p>Every Flybase app can use a queue to add jobs to be done. This queue is accessible only from our <code>queue</code> endpoint or via our helper libraries.</p>
+
+			<p>This is a simple FIFO (First In, First Out) style queue, which is meant to make it simple to use, both for adding jobs to it and getting jobs back from it.
+		</div>
+	</div>
+
+	<div class="panel panel-primary">
+		<div class="panel-heading" id="section-start">Queuing Tasks</div>
+		<div class="panel-body">
+	<p>Here is a simple example of adding a job using the <code>enqueue</code> function:</p>
+
+			<pre><code class="language-javascript">
+var ref = new Flybase("74k8064f-cd6f-4c07-8baf-b1d241496eec", "web", "posts");
+ref.enqueue({
+	username: 'joe',
+	message: 'Hello',
+	published: new Date().getTime()
+});
+			</code></pre>
+
+			<p>That's it, not that different than saving data to your Flybase app is it?</p>
+		</div>
+	</div>
+
+	<div class="panel panel-primary">
+		<div class="panel-heading" id="section-start">Dequeuing Tasks</div>
+		<div class="panel-body">
+			<p>Now we want our workers to remove jobs from the Queue.</p>
+
+			<p>Here is a simple example of getting a job using our <code>dequeue</code> function:</p>
+
+			<pre><code class="language-javascript">
+var ref = new Flybase("74k8064f-cd6f-4c07-8baf-b1d241496eec", "web", "posts");
+
+function worker(){
+	//	check if there are pending jobs..
+	ref.getLength(function(row){
+		if( row.jobs ){
+			//	grab the first item from the queue and process it...
+			ref.dequeue(function( data ){
+				console.log( data.username + " said: " + data.message + " on " + data.published);
+				worker();
+			});
+		}else{
+			worker();
+		}
+	});
+}
+worker();
+			</code></pre>
+
+			<p>Ok, we actually use two functions here. The first, <code>getLength</code> returns how many
+				jobs are in the queue, while our <code>dequeue</code> function returns the next job in the list.</p>
+
+			<p>You could have multiple workers running in the background, each grabbing a job and processing it, when a job is <code>dequeued</code>, it is
+				removed from the list. You could just choose to not use the <code>getLength</code> function, we've found it handy to check if there are pending jobs
+				before hand so you could then do something else while waiting.</p>
+		</div>
+	</div>
+
+	<p>
+		Now, we're ready for the next article on
+		<a href="deploy.html">deploying your apps</a> in Flybase.
+	</p>
+</div>
