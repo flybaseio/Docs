@@ -378,6 +378,22 @@ permalink: /web/guide/reading-data.html
 							{ "name" { "$in": ["bob", "jake"] } }
 						</td>
 					</tr>
+					<tr>
+						<td>
+							array contains "<em>bob</em>"
+						</td>
+						<td>
+							{ "name" { "$has": "bob" } }
+						</td>
+					</tr>
+					<tr>
+						<td>
+							array does <strong>not</strong> contain "<em>bob</em>"
+						</td>
+						<td>
+							{ "name" { "$nhas": "bob" } }
+						</td>
+					</tr>
 				</tbody>
 			</table>
 			<div class="alert alert-info">
